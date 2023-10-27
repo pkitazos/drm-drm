@@ -6,6 +6,27 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 const PAGE_SIZE = 12;
 
+const ProductModelUpdate = z.object({
+  sku_id: z.string(),
+  asn: z.string().optional(),
+  category: z.string().optional(),
+  online: z.boolean().optional(),
+  item_name: z.string().optional(),
+  title: z.string().optional(),
+  brand_name: z.string().optional(),
+  description: z.string().optional(),
+  product_detail: z.string().optional(),
+  sales_price: z.number().optional(),
+  picture_main: z.string().optional(),
+  qty_in_stock: z.number().int().optional(),
+  qty_on_order: z.number().int().optional(),
+  colour: z.nativeEnum(Colour).optional(),
+  pickup: z.nativeEnum(Pickup).optional(),
+  shape: z.nativeEnum(Shape).optional(),
+  create_on: z.date().optional(),
+  orderId: z.number().int().nullish().optional(),
+});
+
 export const productRouter = createTRPCRouter({
   getAll: publicProcedure
     .input(z.object({ page: z.number() }))
@@ -39,26 +60,7 @@ export const productRouter = createTRPCRouter({
   update: publicProcedure
     .input(
       z.object({
-        data: z.object({
-          sku_id: z.string(),
-          asn: z.string().optional(),
-          category: z.string().optional(),
-          online: z.boolean().optional(),
-          item_name: z.string().optional(),
-          title: z.string().optional(),
-          brand_name: z.string().optional(),
-          description: z.string().optional(),
-          product_detail: z.string().optional(),
-          sales_price: z.number().optional(),
-          picture_main: z.string().optional(),
-          qty_in_stock: z.number().int().optional(),
-          qty_on_order: z.number().int().optional(),
-          colour: z.nativeEnum(Colour).optional(),
-          pickup: z.nativeEnum(Pickup).optional(),
-          shape: z.nativeEnum(Shape).optional(),
-          create_on: z.date().optional(),
-          orderId: z.number().int().nullish().optional(),
-        }),
+        data: ProductModelUpdate,
       }),
     )
     .mutation(

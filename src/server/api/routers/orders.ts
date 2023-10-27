@@ -18,7 +18,7 @@ export const orderRouter = createTRPCRouter({
     }),
 
   getById: publicProcedure
-    .input(z.object({ id: z.string() }))
+    .input(z.object({ id: z.number() }))
     .query(async ({ ctx, input: { id } }) => {
       return await ctx.db.order.findFirstOrThrow({
         where: {
@@ -29,7 +29,7 @@ export const orderRouter = createTRPCRouter({
     }),
 
   getByUserId: publicProcedure
-    .input(z.object({ customerId: z.string() }))
+    .input(z.object({ customerId: z.number() }))
     .query(async ({ ctx, input: { customerId } }) => {
       return await ctx.db.order.findFirstOrThrow({
         where: {
@@ -41,9 +41,9 @@ export const orderRouter = createTRPCRouter({
 
   create: publicProcedure
     .input(z.object({ data: OrderModel }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input: { data } }) => {
       return await ctx.db.order.create({
-        data: input,
+        data,
       });
     }),
 });

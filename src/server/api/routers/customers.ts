@@ -17,7 +17,7 @@ export const customerRouter = createTRPCRouter({
     }),
 
   getById: publicProcedure
-    .input(z.object({ id: z.string() }))
+    .input(z.object({ id: z.number() }))
     .query(async ({ ctx, input: { id } }) => {
       return await ctx.db.customer.findFirstOrThrow({
         where: {
