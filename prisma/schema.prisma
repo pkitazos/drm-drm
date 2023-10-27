@@ -11,16 +11,122 @@ datasource db {
     directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+enum OrderStatus {
+    Placed
+    Dispatched
+    Delivering
+    Delivered
+    Completed
+    Cancelled
+}
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+enum Pickup {
+    ElectroAcoustic
+    SS
+    SSS
+    HH
+    HHH
+    HS
+    HSS
+    HSH
+    P90
+    S
+    H
+}
 
-    @@index([name])
+enum Colour {
+    Red
+    Orange
+    Yellow
+    Green
+    Blue
+    Purple
+    Pink
+    Brown
+    Gold
+    Silver
+    Grey
+    Black
+    White
+    Natural
+    Multicolour
+}
+
+enum Shape {
+    SStyle
+    TStyle
+    DoubleCut
+    Offset
+    HollowBody
+    VStyle
+    SmallBody
+    Orchestral
+    GrandAuditorium
+    Dreadnought
+    Jumbo
+    Explorer
+    SingleCut
+    Combo
+    Head
+    Cabinet
+}
+
+model Customer {
+    id            Int     @id @default(autoincrement())
+    first_name    String
+    last_name     String
+    email         String
+    phone_number  String
+    avatar        String
+    address       Address @relation(fields: [addressId], references: [id])
+    loyalty_level Int
+    addressId     String
+    Order         Order[]
+}
+
+model Address {
+    id             String     @id @default(cuid())
+    city           String
+    street_name    String
+    street_address String
+    zip_code       String
+    country        String
+    Customer       Customer[]
+    Order          Order[]
+}
+
+model Order {
+    id               Int         @id
+    customer         Customer    @relation(fields: [customerId], references: [id])
+    shipping_address Address     @relation(fields: [addressId], references: [id])
+    products         Product[]
+    date_created     DateTime
+    order_total      Float
+    order_status     OrderStatus
+    customerId       Int
+    addressId        String
+}
+
+model Product {
+    sku_id         String   @id
+    asn            String
+    category       String
+    online         Boolean
+    item_name      String
+    title          String
+    brand_name     String
+    description    String
+    product_detail String
+    sales_price    Float
+    picture_main   String
+    qty_in_stock   Int
+    qty_on_order   Int
+    colour         Colour
+    pickup         Pickup
+    shape          Shape
+    create_on      DateTime
+    Order          Order?   @relation(fields: [orderId], references: [id])
+    orderId        Int?
 }
 
 // Necessary for Next auth
@@ -58,7 +164,6 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
 }
 
 model VerificationToken {
