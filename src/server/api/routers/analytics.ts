@@ -16,17 +16,87 @@ export const analyticsRouter = createTRPCRouter({
     });
   }),
 
-  getAllOrders: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db.order.findMany({
+  getYoyRevenue: publicProcedure.query(async ({ ctx }) => {
+    const orders = await ctx.db.order.findMany({
       orderBy: {
         DateCreated: "asc",
       },
     });
+
+    let yoyArr = new Array(20).fill(0);
+
+    const yoy = (order: { DateCreated: Date; OrderTotal: number }) => {
+      switch (true) {
+        case order.DateCreated < new Date("2019-03-31"):
+          yoyArr[0] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2019-06-30"):
+          yoyArr[1] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2019-09-30"):
+          yoyArr[2] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2019-12-31"):
+          yoyArr[3] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2020-03-31"):
+          yoyArr[4] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2020-06-30"):
+          yoyArr[5] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2020-09-30"):
+          yoyArr[6] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2020-12-31"):
+          yoyArr[7] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2021-03-31"):
+          yoyArr[8] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2021-06-30"):
+          yoyArr[9] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2021-09-30"):
+          yoyArr[10] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2021-12-31"):
+          yoyArr[11] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2022-03-31"):
+          yoyArr[12] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2022-06-30"):
+          yoyArr[13] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2022-09-30"):
+          yoyArr[14] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2022-12-31"):
+          yoyArr[15] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2023-03-31"):
+          yoyArr[16] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2023-06-30"):
+          yoyArr[17] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2023-09-30"):
+          yoyArr[18] += order.OrderTotal;
+          break;
+        case order.DateCreated < new Date("2023-12-31"):
+          yoyArr[19] += order.OrderTotal;
+          break;
+      }
+    };
+
+    orders.map((order) => yoy(order));
+    return yoyArr;
   }),
 
   getGroupedOrdersAndCategories: publicProcedure.query(async ({ ctx }) => {
     interface CategoryDict {
-        [key: string]: number[];
+      [key: string]: number[];
     }
 
     const getDataForYears = async () => {
@@ -38,35 +108,35 @@ export const analyticsRouter = createTRPCRouter({
             },
           },
         },
-      })
+      });
 
-      const categories: CategoryDict = {}
+      const categories: CategoryDict = {};
 
       // {"CATE": [PRICE2019, PRICE2020, PRICE2021, PRICE2022, PRICE2023]}
 
-      for (let i=0; i<yearlyData.length; i++){
-        let year = yearlyData[i]?.DateCreated.getFullYear().toString()!
-        let category =yearlyData[i]?.Products[0]?.Category!
+      for (let i = 0; i < yearlyData.length; i++) {
+        let year = yearlyData[i]?.DateCreated.getFullYear().toString()!;
+        let category = yearlyData[i]?.Products[0]?.Category!;
 
-        if (!Object.keys(categories).includes(category)){
-          categories[category] = [0,0,0,0,0]
+        if (!Object.keys(categories).includes(category)) {
+          categories[category] = [0, 0, 0, 0, 0];
         }
 
         if (year == "2019")
-          categories[category]![0] += yearlyData[i]?.OrderTotal!
+          categories[category]![0] += yearlyData[i]?.OrderTotal!;
         else if (year == "2020")
-          categories[category]![1] += yearlyData[i]?.OrderTotal!
+          categories[category]![1] += yearlyData[i]?.OrderTotal!;
         else if (year == "2021")
-          categories[category]![2] += yearlyData[i]?.OrderTotal! 
+          categories[category]![2] += yearlyData[i]?.OrderTotal!;
         else if (year == "2022")
-          categories[category]![3] += yearlyData[i]?.OrderTotal!
+          categories[category]![3] += yearlyData[i]?.OrderTotal!;
         else if (year == "2023")
-          categories[category]![4] += yearlyData[i]?.OrderTotal! 
+          categories[category]![4] += yearlyData[i]?.OrderTotal!;
       }
 
-      return categories
+      return categories;
     };
 
-    return await getDataForYears()
+    return await getDataForYears();
   }),
 });

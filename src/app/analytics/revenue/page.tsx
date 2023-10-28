@@ -11,38 +11,78 @@ import ClientPlot from "./client-plot";
 // }
 
 const Page = async () => {
-  const allOrders = await api.analytics.getAllOrders.query();
-  const revenueByCategory = await api.analytics.getGroupedOrdersAndCategories.query();
+  const yoy = await api.analytics.getYoyRevenue.query();
+  const revenueByCategory =
+    await api.analytics.getGroupedOrdersAndCategories.query();
 
-  if (!allOrders || !revenueByCategory) return;
+  if (!yoy || !revenueByCategory) return;
 
   const cumulativeSum = (
     (sum) => (value: number) =>
       (sum += value)
   )(0);
 
-  let categoryData = Object.keys(revenueByCategory).map((category) => {
+  const categoryData = Object.keys(revenueByCategory).map((category) => {
     return {
-      x: ["2019", "2020", "2021", "2022", "2023"], 
+      x: ["2019", "2020", "2021", "2022", "2023"],
       y: revenueByCategory[category],
       name: `${category}`,
-      type: "bar"
+      type: "bar",
+    };
+  });
+
+  const getDates = () => {
+    let dates = []
+    let temp = new Date("2019-01-01")
+    for (let i=0; i<4; i++){
+      dates.push(temp)
+      temp.setMonth(temp.getMonth()+3)
     }
-  })
+    temp = new Date("2020-01-01")
+    for (let i=0; i<4; i++){
+      dates.push(temp)
+      temp.setMonth(temp.getMonth()+3)
+    }
+    temp = new Date("2021-01-01")
+    for (let i=0; i<4; i++){
+      dates.push(temp)
+      temp.setMonth(temp.getMonth()+3)
+    }
+    temp = new Date("2022-01-01")
+    for (let i=0; i<4; i++){
+      dates.push(temp)
+      temp.setMonth(temp.getMonth()+3)
+    }
+    temp = new Date("2023-01-01")
+    for (let i=0; i<4; i++){
+      dates.push(temp)
+      temp.setMonth(temp.getMonth()+3)
+    }
+    return dates
+  }
+
+  console.log(getDates())
 
   return (
     <div className="h-[88dvh] ">
       <div className="flex h-full justify-center">
-        < ClientPlot data={[
+        <ClientPlot
+          data={[
             {
-              x: allOrders.map((order) => order.DateCreated),
-              y: allOrders.map((order) => order.OrderTotal).map(cumulativeSum),
+              x: getDates(),
+              y: yoy,
               type: "scatter",
               mode: "lines",
               marker: { color: "red" },
             },
-          ]} title="Total Revenue"  />
-        < ClientPlot data={categoryData} title="Total Revenue Per Category" barmode="stack" />
+          ]}
+          title="Total Revenue"
+        />
+        <ClientPlot
+          data={categoryData}
+          title="Total Revenue Per Category"
+          barmode="stack"
+        />
       </div>
     </div>
   );
