@@ -57,7 +57,7 @@ const Page = () => {
       mapRef.current.fitBounds(mapBounds, {
         padding: 100,
         speed: 10,
-        zoom:1
+        zoom: 1,
       });
       mapRef.current.resize();
     }
