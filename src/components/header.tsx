@@ -4,7 +4,7 @@ import { Breadcrumbs } from "./breadcrumbs";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 flex h-[12dvh] flex-col justify-center gap-y-2.5 bg-background px-7">
+    <header className="fixed left-14 top-0 z-50 flex h-[12dvh] w-full flex-col justify-center gap-y-2.5 bg-background px-7">
       <Breadcrumbs />
       <div className="flex items-center gap-3">
         <Music className="stroke-[3]" />

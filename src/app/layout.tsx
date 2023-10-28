@@ -31,15 +31,9 @@ export default function RootLayout({
       <body className={`font-sans ${inter.variable}`}>
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <TRPCReactProvider headers={headers()}>
-          <div className="flex">
-          <div className="basis-1/16">
-            <Sidebar />
-          </div>
-          <div className="basis-15/16">
-            <Header />
-            {children}
-          </div>
-          </div>
+          <Header />
+          <Sidebar />
+          <div className="absolute left-14 top-[12dvh]">{children}</div>
         </TRPCReactProvider>
         <Toaster />
       </body>
