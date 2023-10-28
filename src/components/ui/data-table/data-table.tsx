@@ -24,7 +24,7 @@ import {
 } from "~/components/ui/table";
 import { cn } from "~/lib/utils";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableToolbar, type FilterOption } from "./data-table-toolbar";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   className?: string;
