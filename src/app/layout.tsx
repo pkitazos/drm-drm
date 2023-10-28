@@ -6,6 +6,10 @@ import { headers } from "next/headers";
 import { TRPCReactProvider } from "~/trpc/react";
 import Header from "~/components/header";
 
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { ourFileRouter } from "~/app/api/uploadthing/core";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -25,6 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
+      <NextSSRPlugin
+       routerConfig={extractRouterConfig(ourFileRouter)}
+        />
         <TRPCReactProvider headers={headers()}>
           <Header />
           {children}
