@@ -42,10 +42,7 @@ export default function UpdateProductForm({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={onSubmit}
-        className="flex h-[80dvh] flex-col items-center"
-      >
+      <form onSubmit={onSubmit} className="flex flex-col items-center">
         <div className="flex w-full gap-6">
           <div className="flex w-full basis-1/3 items-center ">
             <FormField

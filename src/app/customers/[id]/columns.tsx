@@ -83,9 +83,7 @@ export const columns: ColumnDef<Order>[] = [
     ),
     cell: ({ row }) => (
       <Button asChild variant="outline">
-        <Link href={`/customers/${row.original.CustomerId}`}>
-          Order Details
-        </Link>
+        <Link href={`/orders/${row.original.Id}`}>Order Details</Link>
       </Button>
     ),
   },
