@@ -15,26 +15,6 @@ export const analyticsRouter = createTRPCRouter({
       },
     });
   }),
-  getOrdersAndAddress: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db.order.findMany({
-      include: {
-        ShippingAddress: {
-          select: {
-            lat: true,
-            lon: true,
-          },
-        },
-      },
-    });
-  }),
-
-  getAllOrders: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db.order.findMany({
-      orderBy: {
-        DateCreated: "asc",
-      },
-    });
-  }),
 
   getGroupedOrdersAndCategories: publicProcedure.query(async ({ ctx }) => {
     type CategoryDict = Record<string, number[]>;
@@ -74,6 +54,7 @@ export const analyticsRouter = createTRPCRouter({
 
     return await getDataForYears();
   }),
+
   getYoyRevenue: publicProcedure.query(async ({ ctx }) => {
     const orders = await ctx.db.order.findMany({
       orderBy: {
@@ -150,49 +131,5 @@ export const analyticsRouter = createTRPCRouter({
 
     orders.map((order) => yoy(order));
     return yoyArr;
-  }),
-
-  getGroupedOrdersAndCategories: publicProcedure.query(async ({ ctx }) => {
-    type CategoryDict = Record<string, number[]>;
-
-    const getDataForYears = async () => {
-      const yearlyData = await ctx.db.order.findMany({
-        include: {
-          Products: {
-            select: {
-              Category: true,
-            },
-          },
-        },
-      });
-
-      const categories: CategoryDict = {};
-
-      // {"CATE": [PRICE2019, PRICE2020, PRICE2021, PRICE2022, PRICE2023]}
-
-      for (let i = 0; i < yearlyData.length; i++) {
-        const year = yearlyData[i]?.DateCreated.getFullYear().toString()!;
-        const category = yearlyData[i]?.Products[0]?.Category!;
-
-        if (!Object.keys(categories).includes(category)) {
-          categories[category] = [0, 0, 0, 0, 0];
-        }
-
-        if (year == "2019")
-          categories[category]![0] += yearlyData[i]?.OrderTotal!;
-        else if (year == "2020")
-          categories[category]![1] += yearlyData[i]?.OrderTotal!;
-        else if (year == "2021")
-          categories[category]![2] += yearlyData[i]?.OrderTotal!;
-        else if (year == "2022")
-          categories[category]![3] += yearlyData[i]?.OrderTotal!;
-        else if (year == "2023")
-          categories[category]![4] += yearlyData[i]?.OrderTotal!;
-      }
-
-      return categories;
-    };
-
-    return await getDataForYears();
   }),
 });
