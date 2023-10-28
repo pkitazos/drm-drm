@@ -1,5 +1,26 @@
-import { type Colour, type Pickup, type Shape } from "@prisma/client";
+import {
+  OrderStatus,
+  type Colour,
+  type Pickup,
+  type Shape,
+} from "@prisma/client";
 import { z } from "zod";
+
+const orderStatuses = [
+  "Placed",
+  "Dispatched",
+  "Delivering",
+  "Delivered",
+  "Completed",
+  "Cancelled",
+] as const;
+
+export const OrderStatusSchema = z
+  .number()
+  .min(1)
+  .max(orderStatuses.length)
+  .transform((e) => (orderStatuses[e] ?? "Placed") as OrderStatus)
+  .or(z.enum(orderStatuses));
 
 const pickups = [
   "ElectroAcoustic",
