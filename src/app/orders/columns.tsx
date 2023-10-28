@@ -1,9 +1,11 @@
 import { type Order } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import { Badge } from "~/components/ui/badge";
 import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
 import { currencyFormatter } from "~/lib/currency";
+import { cn } from "~/lib/utils";
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -53,6 +55,24 @@ export const columns: ColumnDef<Order>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Order Status" canFilter />
     ),
+    cell: ({ row }) => {
+      const status = row.original.OrderStatus;
+
+      return (
+        <Badge
+          className={cn(
+            status === "Placed" && "bg-amber-500",
+            status === "Dispatched" && "bg-yellow-300",
+            status === "Delivering" && "bg-lime-300",
+            status === "Delivered" && "bg-green-300",
+            status === "Completed" && "bg-emerald-500",
+            status === "Cancelled" && "bg-red-500",
+          )}
+        >
+          {status}
+        </Badge>
+      );
+    },
   },
   {
     id: "CustomerId",
