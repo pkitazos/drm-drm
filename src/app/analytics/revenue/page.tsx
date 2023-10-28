@@ -13,7 +13,7 @@ const Page = async () => {
       (sum += value)
   )(0);
 
-  let categoryData = Object.keys(revenueByCategory).map((category) => {
+  const categoryData = Object.keys(revenueByCategory).map((category) => {
     return {
       x: ["2019", "2020", "2021", "2022", "2023"],
       y: revenueByCategory[category],
