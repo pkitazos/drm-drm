@@ -23,7 +23,7 @@ export function Breadcrumbs() {
   return (
     <ol className="flex items-center gap-x-4" aria-label="Breadcrumb">
       <li className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-        <Link className="hover:text-secondary" href="/">
+        <Link className="hover:text-orange-500" href="/">
           <HomeIcon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
         </Link>
       </li>
@@ -39,16 +39,15 @@ export function Breadcrumbs() {
               aria-hidden="true"
             />
             <Link
-              className="hover:text-secondary"
+              className="font-medium hover:text-orange-500"
               href={`/${paths.slice(0, i + 1).join("/")}`}
             >
               {path}
             </Link>
-            <Slash className="mx-2 h-4 w-4" />
           </li>
         ))}
       <li
-        className="truncate text-sm font-semibold text-gray-800 dark:text-gray-200"
+        className="flex items-center gap-x-4 truncate text-sm font-semibold text-gray-800 dark:text-gray-200"
         aria-current="page"
       >
         <ChevronRightIcon
