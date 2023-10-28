@@ -1,19 +1,19 @@
-import Image from "next/image";
-import { FileUploadButton } from "~/components/file-upload-button";
+import { api } from "~/trpc/server";
+import CreateProductForm from "./create-product-form";
 
-export default function Page() {
+export default async function Page({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  const data = await api.products.getById.query({ id });
   return (
-    <main className="flex h-[88dvh] justify-center gap-5 p-5">
-      <button className="flex basis-1/3 items-center justify-center rounded border">
-        <Image
-          src="/test-guitar.jpg"
-          height={600}
-          width={280}
-          alt="test guitar"
-        />
-      </button>
-      <div className="basis-2/3 bg-green-100">
-        <FileUploadButton />
+    <main className="mt-[12dvh] flex h-[80dvh] flex-col items-center justify-center px-10">
+      <div className="w-4/6">
+        <div className="flex w-full justify-start">
+          <h1 className="mb-8 text-4xl font-semibold">Edit product</h1>
+        </div>
+        <CreateProductForm productData={data} />
       </div>
     </main>
   );
