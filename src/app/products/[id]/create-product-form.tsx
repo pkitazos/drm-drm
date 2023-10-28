@@ -44,7 +44,7 @@ export default function CreateProductForm({
     <Form {...form}>
       <form
         onSubmit={onSubmit}
-        className="flex h-[80dvh] w-4/6 flex-col items-center"
+        className="flex h-[80dvh] flex-col items-center"
       >
         <div className="flex w-full gap-6">
           <div className="flex w-full basis-1/3 items-center ">

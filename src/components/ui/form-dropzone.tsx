@@ -28,19 +28,18 @@ export function FormDropzone({
       }}
       onClientUploadComplete={(urls) => {
         toast.success("Picture upload complete!", { id: "PictureMainUpload" });
-
         urls ??= [];
-
         console.log(urls);
-
         urls[0] && submit(urls[0].url);
       }}
       content={{
-        label: () => <p>item photo</p>,
+        label: ({ ready }) => !ready && <p>item photo</p>,
+        uploadIcon: ({ ready }) => !ready && <></>,
         allowedContent: () => (
           <>
             {value && (
               <Image
+                className="h-56 w-56 object-contain object-center"
                 src={value}
                 alt="uploaded picture"
                 width={100}
