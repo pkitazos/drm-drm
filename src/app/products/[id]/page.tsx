@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Upload from "~/components/file-upload-button";
+import { FileUploadButton } from "~/components/file-upload-button";
 
 export default function Page() {
   return (
@@ -13,7 +13,7 @@ export default function Page() {
         />
       </button>
       <div className="basis-2/3 bg-green-100">
-        <Upload />
+        <FileUploadButton />
       </div>
     </main>
   );
