@@ -3,19 +3,9 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
 import { type ColumnDef } from "@tanstack/react-table";
 import { Check } from "lucide-react";
+import { type Product } from "@prisma/client";
 
-export interface ProductData {
-  ItemName: string;
-  BrandName: string;
-  SalesPrice: number;
-  QtyInStock: number;
-  QtyOnOrder: number;
-  Category: string;
-  Online: boolean;
-  CreatedOn: string;
-}
-
-export const columns: ColumnDef<ProductData>[] = [
+export const columns: ColumnDef<Product>[] = [
   {
     id: "select",
     header: ({ table }) => (
