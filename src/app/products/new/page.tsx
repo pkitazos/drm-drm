@@ -1,8 +1,3 @@
-import Image from "next/image";
-
-import { FileUploadButton } from "~/components/file-upload-button";
-import { ProductForm } from "~/components/product-form";
-import { Button } from "~/components/ui/button";
 import CreateProductForm from "./form";
 
 export default function Page() {

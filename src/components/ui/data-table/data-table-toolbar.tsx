@@ -4,7 +4,7 @@ import { CrossIcon } from "lucide-react";
 import { type Table } from "@tanstack/react-table";
 
 import { Button } from "../button";
-import { Input } from "../../input";
+import { Input } from "../input";
 import { DataTableViewOptions } from "./data-table-view-options";
 
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";

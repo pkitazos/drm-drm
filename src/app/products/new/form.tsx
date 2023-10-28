@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductModel } from "@prisma/schemas";
@@ -151,6 +152,7 @@ export default function CreateProductForm() {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
+                {/* @ts-ignore */}
                 <Input placeholder="..." {...field} />
               </FormControl>
               <FormDescription>
@@ -167,6 +169,7 @@ export default function CreateProductForm() {
             <FormItem>
               <FormLabel>Product Detail</FormLabel>
               <FormControl>
+                {/* @ts-ignore */}
                 <Input placeholder="..." {...field} />
               </FormControl>
               <FormDescription>
