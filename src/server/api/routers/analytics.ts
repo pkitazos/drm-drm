@@ -26,7 +26,7 @@ export const analyticsRouter = createTRPCRouter({
 
   getGroupedOrdersAndCategories: publicProcedure.query(async ({ ctx }) => {
     interface CategoryDict {
-        [key: string]: number[];
+      [key: string]: number[];
     }
 
     const getDataForYears = async () => {
@@ -38,35 +38,35 @@ export const analyticsRouter = createTRPCRouter({
             },
           },
         },
-      })
+      });
 
-      const categories: CategoryDict = {}
+      const categories: CategoryDict = {};
 
       // {"CATE": [PRICE2019, PRICE2020, PRICE2021, PRICE2022, PRICE2023]}
 
-      for (let i=0; i<yearlyData.length; i++){
-        let year = yearlyData[i]?.DateCreated.getFullYear().toString()!
-        let category =yearlyData[i]?.Products[0]?.Category!
+      for (let i = 0; i < yearlyData.length; i++) {
+        let year = yearlyData[i]?.DateCreated.getFullYear().toString()!;
+        let category = yearlyData[i]?.Products[0]?.Category!;
 
-        if (!Object.keys(categories).includes(category)){
-          categories[category] = [0,0,0,0,0]
+        if (!Object.keys(categories).includes(category)) {
+          categories[category] = [0, 0, 0, 0, 0];
         }
 
         if (year == "2019")
-          categories[category]![0] += yearlyData[i]?.OrderTotal!
+          categories[category]![0] += yearlyData[i]?.OrderTotal!;
         else if (year == "2020")
-          categories[category]![1] += yearlyData[i]?.OrderTotal!
+          categories[category]![1] += yearlyData[i]?.OrderTotal!;
         else if (year == "2021")
-          categories[category]![2] += yearlyData[i]?.OrderTotal! 
+          categories[category]![2] += yearlyData[i]?.OrderTotal!;
         else if (year == "2022")
-          categories[category]![3] += yearlyData[i]?.OrderTotal!
+          categories[category]![3] += yearlyData[i]?.OrderTotal!;
         else if (year == "2023")
-          categories[category]![4] += yearlyData[i]?.OrderTotal! 
+          categories[category]![4] += yearlyData[i]?.OrderTotal!;
       }
 
-      return categories
+      return categories;
     };
 
-    return await getDataForYears()
+    return await getDataForYears();
   }),
 });
