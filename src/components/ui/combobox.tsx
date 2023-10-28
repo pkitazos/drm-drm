@@ -47,7 +47,7 @@ export function FormCombobox<
             variant="outline"
             role="combobox"
             className={cn(
-              "w-[200px] justify-between",
+              "flex w-full justify-between",
               !field.value && "text-muted-foreground",
             )}
           >
@@ -58,7 +58,7 @@ export function FormCombobox<
           </Button>
         </FormControl>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="flex w-full p-0">
         <Command>
           <CommandInput placeholder="Search option..." />
           <CommandEmpty>No option found.</CommandEmpty>

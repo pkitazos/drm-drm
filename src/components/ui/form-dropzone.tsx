@@ -5,16 +5,20 @@ import * as React from "react";
 
 import toast from "react-hot-toast";
 import { UploadDropzone } from "~/lib/uploadthing";
+import { cn } from "~/lib/utils";
 
 export function FormDropzone({
   submit,
   value,
+  className,
 }: {
   submit: (url: string) => void;
   value?: string;
+  className: string;
 }) {
   return (
     <UploadDropzone
+      className={cn("cursor-pointer", className)}
       endpoint="imageUploader"
       onUploadBegin={() => {
         toast.loading("Starting picture upload", { id: "PictureMainUpload" });
@@ -32,6 +36,7 @@ export function FormDropzone({
         urls[0] && submit(urls[0].url);
       }}
       content={{
+        label: () => <p>item photo</p>,
         allowedContent: () => (
           <>
             {value && (
