@@ -6,25 +6,24 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 const PAGE_SIZE = 12;
 
-const ProductModelUpdate = z.object({
-  sku_id: z.string(),
-  asn: z.string().optional(),
-  category: z.string().optional(),
-  online: z.boolean().optional(),
-  item_name: z.string().optional(),
-  title: z.string().optional(),
-  brand_name: z.string().optional(),
-  description: z.string().optional(),
-  product_detail: z.string().optional(),
-  sales_price: z.number().optional(),
-  picture_main: z.string().optional(),
-  qty_in_stock: z.number().int().optional(),
-  qty_on_order: z.number().int().optional(),
-  colour: z.nativeEnum(Colour).optional(),
-  pickup: z.nativeEnum(Pickup).optional(),
-  shape: z.nativeEnum(Shape).optional(),
-  create_on: z.date().optional(),
-  orderId: z.number().int().nullish().optional(),
+export const ProductModelUpdate = z.object({
+  SKU_ID: z.string(),
+  ASN: z.string().optional(),
+  Category: z.string().optional(),
+  Online: z.boolean().optional(),
+  ItemName: z.string().optional(),
+  Title: z.string().optional(),
+  BrandName: z.string().optional(),
+  Description: z.string().nullish().optional(),
+  ProductDetail: z.string().nullish().optional(),
+  SalesPrice: z.number().optional(),
+  PictureMain: z.string().optional(),
+  QtyInStock: z.number().int().optional(),
+  QtyOnOrder: z.number().int().optional(),
+  Colour: z.nativeEnum(Colour).optional(),
+  Pickup: z.nativeEnum(Pickup).optional(),
+  BodyShape: z.nativeEnum(Shape).optional(),
+  CreatedOn: z.coerce.date().optional(),
 });
 
 export const productRouter = createTRPCRouter({
@@ -44,7 +43,7 @@ export const productRouter = createTRPCRouter({
     .query(async ({ ctx, input: { id } }) => {
       return await ctx.db.product.findFirstOrThrow({
         where: {
-          sku_id: id,
+          SKU_ID: id,
         },
       });
     }),
@@ -67,12 +66,12 @@ export const productRouter = createTRPCRouter({
       async ({
         ctx,
         input: {
-          data: { sku_id, ...rest },
+          data: { SKU_ID, ...rest },
         },
       }) => {
         return await ctx.db.product.update({
           where: {
-            sku_id,
+            SKU_ID,
           },
           data: rest,
         });
@@ -83,7 +82,7 @@ export const productRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input: { id } }) => {
       return await ctx.db.product.delete({
-        where: { sku_id: id },
+        where: { SKU_ID: id },
       });
     }),
 });
