@@ -54,35 +54,17 @@ export const columns: ColumnDef<Customer>[] = [
     cell: ({ row }) => {
       const loyalty = row.original.LoyaltyLevel;
 
-      switch (loyalty) {
-        case 0:
-          return (
-            <>
-              <StarOff />
-            </>
-          );
-        case 1:
-          return (
-            <>
-              <Star className="text-yellow-400" />
-            </>
-          );
-        case 2:
-          return (
-            <>
-              <Star className="text-yellow-400" />
-              <Star className="text-yellow-400" />
-            </>
-          );
-        case 3:
-          return (
-            <>
-              <Star className="text-yellow-400" />
-              <Star className="text-yellow-400" />
-              <Star className="text-yellow-400" />
-            </>
-          );
-      }
+      return (
+        <div className="flex flex-row justify-center">
+          {loyalty === 0 ? (
+            <StarOff />
+          ) : (
+            Array.from({ length: loyalty }, (_, i) => (
+              <Star key={i} className="text-yellow-400" />
+            ))
+          )}
+        </div>
+      );
     },
   },
 ];
