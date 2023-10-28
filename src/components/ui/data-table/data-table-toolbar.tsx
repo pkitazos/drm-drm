@@ -1,25 +1,14 @@
 "use client";
 
-import { CrossIcon } from "lucide-react";
 import { type Table } from "@tanstack/react-table";
+import { CrossIcon } from "lucide-react";
 
 import { Button } from "../button";
 
 import { DataTableViewOptions } from "./data-table-view-options";
 
-import { type ComponentType } from "react";
-
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
-}
-
-export interface FilterOption {
-  name: string;
-  values: {
-    label: string;
-    value: string;
-    icon?: ComponentType<{ className?: string | undefined }> | undefined;
-  }[];
 }
 
 export function DataTableToolbar<TData>({
