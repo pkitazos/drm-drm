@@ -1,8 +1,10 @@
 import { type Customer } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
-import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
+import Link from "next/link";
+import { Loyalty } from "~/components/loyalty";
+import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
-import { Star, StarOff } from "lucide-react";
+import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
 
 export const columns: ColumnDef<Customer>[] = [
   {
@@ -51,20 +53,17 @@ export const columns: ColumnDef<Customer>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Loyalty Level" canFilter />
     ),
-    cell: ({ row }) => {
-      const loyalty = row.original.LoyaltyLevel;
-
-      return (
-        <div className="flex flex-row justify-center">
-          {loyalty === 0 ? (
-            <StarOff />
-          ) : (
-            Array.from({ length: loyalty }, (_, i) => (
-              <Star key={i} className="text-yellow-400" />
-            ))
-          )}
-        </div>
-      );
-    },
+    cell: ({ row }) => <Loyalty level={row.original.LoyaltyLevel} />,
+  },
+  {
+    id: "actions",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Actions" />
+    ),
+    cell: ({ row }) => (
+      <Button asChild variant="outline">
+        <Link href={`/customers/${row.original.Id}`}>Customer Details</Link>
+      </Button>
+    ),
   },
 ];
