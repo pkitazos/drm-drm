@@ -6,11 +6,12 @@ generator client {
 }
 
 generator zod {
-    provider     = "zod-prisma"
-    output       = "../node_modules/@prisma/schemas"
-    modelSuffix  = "Model"
-    useDecimalJs = true
-    imports      = "./helpers"
+    provider      = "zod-prisma"
+    output        = "../node_modules/@prisma/schemas"
+    modelSuffix   = "Model"
+    useDecimalJs  = true
+    relationModel = false
+    imports       = "./helpers"
 }
 
 datasource db {

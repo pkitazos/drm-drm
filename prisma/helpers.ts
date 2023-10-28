@@ -1,5 +1,5 @@
 import {
-  OrderStatus,
+  type OrderStatus,
   type Colour,
   type Pickup,
   type Shape,
