@@ -9,6 +9,7 @@ export function FileUploadButton() {
     <UploadButton
       endpoint="imageUploader"
       onClientUploadComplete={(res) => {
+        res?.map((e) => e.url);
         console.log("Files: ", res);
         alert("Upload Completed");
       }}

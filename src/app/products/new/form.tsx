@@ -19,6 +19,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { api } from "~/trpc/react";
+import { FormDropzone } from "~/components/ui/form-dropzone";
 
 export default function CreateProductForm() {
   const form = useForm<z.infer<typeof ProductModel>>({
@@ -34,23 +35,22 @@ export default function CreateProductForm() {
   return (
     <Form {...form}>
       <form onSubmit={onSubmit}>
-        {/* <FormField
+        <FormField
           control={form.control}
           name="PictureMain"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Main Picture</FormLabel>
+              <FormControl>
+                <FormDropzone
+                  value={field.value}
+                  submit={(url) => form.setValue("PictureMain", url)}
+                />
+              </FormControl>
               <FormDescription>A picture of the item</FormDescription>
-              <Image
-                className="flex h-full object-contain"
-                src="/test-guitar.jpg"
-                height={600}
-                width={280}
-                alt="test guitar"
-              />
             </FormItem>
           )}
-        /> */}
+        />
         <FormField
           control={form.control}
           name="SKU_ID"
