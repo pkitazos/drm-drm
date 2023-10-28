@@ -1,3 +1,11 @@
-export default function Page() {
-  return <main className="grid h-[90dvh] place-items-center">products</main>;
+import { api } from "~/trpc/server";
+import { ClientSection } from "./client-section";
+
+export default async function Page() {
+  const data = await api.products.getAll.query({ page: 1 });
+  return (
+    <main className="flex h-[88dvh] justify-center px-16 pt-6">
+      <ClientSection productData={data} />
+    </main>
+  );
 }

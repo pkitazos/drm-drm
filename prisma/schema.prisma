@@ -6,11 +6,12 @@ generator client {
 }
 
 generator zod {
-    provider     = "zod-prisma"
-    output       = "../node_modules/@prisma/schemas"
-    modelSuffix  = "Model"
-    useDecimalJs = true
-    imports      = "./helpers"
+    provider      = "zod-prisma"
+    output        = "../node_modules/@prisma/schemas"
+    modelSuffix   = "Model"
+    useDecimalJs  = true
+    relationModel = false
+    imports       = "./helpers"
 }
 
 datasource db {
@@ -81,14 +82,15 @@ enum Shape {
 }
 
 model Customer {
-    Id           Int     @id @default(autoincrement())
+    Id           Int     @id
     first_name   String
     last_name    String
     email        String
     phone_number String
     avatar       String
     address      Address @relation(fields: [addressId], references: [id])
-    loyaltyLevel Int
+    /// @zod.optional()
+    loyaltyLevel Int     @default(0)
     addressId    String
     Order        Order[]
 }
@@ -100,20 +102,25 @@ model Address {
     street_address String
     zip_code       String
     country        String
+    lat            Float
+    lon            Float
     Customer       Customer[]
     Order          Order[]
 }
 
 model Order {
     Id              Int         @id
-    Customer        Customer    @relation(fields: [customerId], references: [Id])
+    Customer        Customer    @relation(fields: [CustomerId], references: [Id])
     ShippingAddress Address     @relation(fields: [addressId], references: [id])
-    // Products        Product[] //TODO implement this
+    Products        Product[]
+    /// @zod.custom(z.coerce.date())
     DateCreated     DateTime
     OrderTotal      Float
+    /// @zod.custom(imports.OrderStatusSchema)
     OrderStatus     OrderStatus
-    addressId       String
-    customerId      Int
+
+    addressId  String
+    CustomerId Int
 }
 
 model Product {
@@ -138,6 +145,7 @@ model Product {
     BodyShape     Shape
     /// @zod.custom(z.coerce.date())
     CreatedOn     DateTime
+    Orders        Order[]
 }
 
 // Necessary for Next auth

@@ -43,7 +43,11 @@ export function DataTableColumnHeader<TData, TValue>({
     <div className={cn("flex items-center space-x-2", className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size="sm" className=" min-h-8 my-1.5 -ml-1 text-left">
+          <Button
+            variant="ghost"
+            size="sm"
+            className=" min-h-8 my-1.5 -ml-1 text-left"
+          >
             <span>{title}</span>
             {column.getIsSorted() === "desc" ? (
               <ArrowDownIcon className="ml-2 h-4 w-4" />
@@ -73,7 +77,7 @@ export function DataTableColumnHeader<TData, TValue>({
       {canFilter && (
         <Popover>
           <PopoverTrigger asChild>
-            <Button size="sm">
+            <Button variant="ghost" size="sm">
               <Search className="h-4 w-4" />
             </Button>
           </PopoverTrigger>
