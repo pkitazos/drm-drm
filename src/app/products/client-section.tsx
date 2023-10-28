@@ -1,11 +1,13 @@
 "use client";
-import { Shape, type Product } from "@prisma/client";
-import DataTable from "~/components/ui/data-table/data-table";
+import { type Product } from "@prisma/client";
+import { DataTable } from "~/components/ui/data-table/data-table";
 import { columns } from "./columns";
+import { shapes } from "prisma/helpers";
 
 const filterable = [
   {
-    name: "BodyShape",
+    name: "bodyShape",
+    values: shapes.map((shape) => ({ label: shape, value: shape })),
   },
 ];
 
@@ -14,20 +16,7 @@ export function ClientSection({ productData }: { productData: Product[] }) {
     <DataTable
       columns={columns}
       data={productData}
-      searchableField="brand" // needs to be column id
-      filterableFields={[]}
+      filterableFields={filterable}
     />
   );
 }
-
-// filterableFields: {
-//   name: string;
-//   values: FilterOption[];
-// }[];
-// }
-
-// export interface FilterOption {
-// label: string;
-// value: string;
-// icon?: ComponentType<{ className?: string | undefined }> | undefined;
-// }

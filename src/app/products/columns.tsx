@@ -31,12 +31,13 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "ItemName",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-20"
+        className="w-28"
         column={column}
         title="Name"
         canFilter
       />
     ),
+    cell: ({ row }) => <p className="w-20">{row.original.BrandName}</p>,
   },
   {
     id: "brandName",
