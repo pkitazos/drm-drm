@@ -3,9 +3,17 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
 import { type ColumnDef } from "@tanstack/react-table";
 import { Check, X } from "lucide-react";
+import Link from "next/link";
 import { type Product } from "@prisma/client";
 import { format } from "date-fns";
 import { currencyFormatter } from "~/lib/currency";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
+import { Button } from "~/components/ui/button";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -31,20 +39,34 @@ export const columns: ColumnDef<Product>[] = [
     id: "itemName",
     accessorKey: "ItemName",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        className="w-28"
-        column={column}
-        title="Name"
-        canFilter
-      />
+      <DataTableColumnHeader column={column} title="Name" canFilter />
     ),
-    cell: ({ row }) => <p className="w-20">{row.original.BrandName}</p>,
+    cell: ({ row }) => (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              asChild
+              variant="ghost"
+              className="underline decoration-dotted"
+            >
+              <Link href={`/products/${row.original.SKU_ID}`}>
+                {row.original.ItemName}
+              </Link>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>See Item Details</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    ),
   },
   {
     id: "brandName",
     accessorKey: "BrandName",
     header: ({ column }) => (
-      <DataTableColumnHeader className="w-14" column={column} title="Brand" />
+      <DataTableColumnHeader column={column} title="Brand" canFilter />
     ),
     cell: ({ row }) => <p className="text-center">{row.original.BrandName}</p>,
   },
@@ -52,7 +74,7 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "SalesPrice",
     id: "SalesPrice",
     header: ({ column }) => (
-      <DataTableColumnHeader className="w-14" column={column} title="Price" />
+      <DataTableColumnHeader column={column} title="Price" />
     ),
     cell: ({ row }) => (
       <p className="text-center">
@@ -64,11 +86,7 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "QtyInStock",
     id: "qtyInStock",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        className="w-14"
-        column={column}
-        title="In Stock"
-      />
+      <DataTableColumnHeader column={column} title="In Stock" />
     ),
     cell: ({ row }) => <p className="text-center">{row.original.QtyInStock}</p>,
   },
@@ -76,11 +94,7 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "QtyOnOrder",
     id: "qtyOnOrder",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        className="w-14"
-        column={column}
-        title="On Order"
-      />
+      <DataTableColumnHeader column={column} title="On Order" />
     ),
     cell: ({ row }) => <p className="text-center">{row.original.QtyOnOrder}</p>,
   },
@@ -112,7 +126,7 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "Pickup",
     id: "pickup",
     header: ({ column }) => (
-      <DataTableColumnHeader className="w-12" column={column} title="Pickup" />
+      <DataTableColumnHeader column={column} title="Pickup" />
     ),
     cell: ({ row }) => (
       <p className="justifycenter flex">
@@ -137,7 +151,7 @@ export const columns: ColumnDef<Product>[] = [
     id: "online",
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-12 text-center"
+        className="text-center"
         column={column}
         title="Online"
       />
@@ -160,7 +174,7 @@ export const columns: ColumnDef<Product>[] = [
     ),
     cell: ({ row }) => {
       const date = row.original.CreatedOn;
-      return <p className="text-center">{format(date, "dd-mm-yyyy mm:hh")}</p>;
+      return <p className="text-center">{format(date, "dd-mm-yyyy")}</p>;
     },
   },
 ];

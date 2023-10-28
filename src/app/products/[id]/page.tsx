@@ -8,7 +8,7 @@ export default async function Page({
 }) {
   const data = await api.products.getById.query({ id });
   return (
-    <main className="mt-[12dvh] flex h-[80dvh] flex-col items-center justify-center px-10">
+    <main className="flex flex-col items-center justify-center px-10">
       <div className="w-4/6">
         <div className="flex w-full justify-start">
           <h1 className="mb-8 text-4xl font-semibold">Edit product</h1>

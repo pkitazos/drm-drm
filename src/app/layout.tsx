@@ -33,7 +33,7 @@ export default function RootLayout({
         <TRPCReactProvider headers={headers()}>
           <Header />
           <Sidebar />
-          <div className="absolute left-14 top-[12dvh] w-[calc(100%-3.5rem)] p-10">
+          <div className="ml-14 mt-[14dvh] w-[calc(100%-3.5rem)] p-10">
             {children}
           </div>
         </TRPCReactProvider>
