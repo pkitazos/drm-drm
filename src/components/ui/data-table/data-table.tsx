@@ -32,7 +32,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export default function DataTable<TData, TValue>({
+export function DataTable<TData, TValue>({
   className,
   columns,
   data,
