@@ -14,6 +14,18 @@ const config = {
         port: "",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "images.guitarguitar.co.uk",
+        port: "",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "robohash.org",
+        port: "",
+        pathname: "**",
+      },
     ],
   },
 };
