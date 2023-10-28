@@ -1,9 +1,33 @@
-"use client"
+import { api } from "~/trpc/server";
+import ClientPlot from "../revenue/client-plot";
 
-const Page = () => {
+const Page = async () => {
+  const loyalties: number[] = [0, 1, 2, 3];
+  const categoriesByLoyalty =
+    await api.analytics.getLoyaltyRevenueByCategory.query();
+
+  const categoryData = Object.keys(categoriesByLoyalty).map((category) => {
+    return {
+      x: loyalties,
+      y: categoriesByLoyalty[category],
+      name: `${category}`,
+      type: "bar",
+    };
+  });
+
   return (
-    <div>page</div>
-  )
-}
+    <div className="h-[88dvh] ">
+      <div className="flex h-full justify-center">
+        <ClientPlot
+          data={categoryData}
+          title="Total Revenue Per Category (2019-2023)"
+          barmode="group"
+          width={1400}
+          height={700}
+        />
+      </div>
+    </div>
+  );
+};
 
-export default Page
+export default Page;

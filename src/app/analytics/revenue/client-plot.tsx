@@ -8,19 +8,23 @@ interface ClientPlot {
   data: any[];
   title: string;
   barmode?: string;
+  width: number;
+  height: number;
 }
 
 const ClientPlot: FunctionComponent<ClientPlot> = ({
   data,
   title,
   barmode,
+  height,
+  width,
 }) => {
   return (
     <Plot
       data={data}
       layout={{
-        width: 900,
-        height: 700,
+        width: width,
+        height: height,
         title: title,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
