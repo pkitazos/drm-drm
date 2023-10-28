@@ -1,9 +1,11 @@
+import { api } from "~/trpc/server";
 import { ClientSection } from "./client-section";
 
-export default function Page() {
+export default async function Page() {
+  const data = await api.products.getAll.query({ page: 1 });
   return (
-    <main className="flex h-[90dvh] justify-center">
-      <ClientSection />
+    <main className="flex h-[88dvh] justify-center px-16 pt-6">
+      <ClientSection productData={data} />
     </main>
   );
 }

@@ -4,7 +4,7 @@ import { Button } from "~/components/ui/button";
 
 export default function Page() {
   return (
-    <main className="flex h-[80dvh] justify-center gap-5 p-5">
+    <main className="flex h-[88dvh] justify-center gap-5 p-5">
       <div className="relative flex basis-1/3 flex-col items-center justify-center rounded border">
         <Image
           className="flex h-full object-contain"
