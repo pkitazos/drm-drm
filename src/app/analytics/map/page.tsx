@@ -8,7 +8,8 @@ import { api } from "~/trpc/react";
 import { SpinnerComponent } from "~/components/ui/spinner";
 import { env } from "~/env.mjs";
 import { Feature, FeatureCollection } from "geojson";
-import { heatmapLayer } from "../map-style";
+import { heatmapLayer } from "./map-style";
+import { MapButtonBox } from "./map-box";
 
 interface OrderWithAddresses {
   Id: number;
@@ -25,6 +26,10 @@ interface ShippingAddress {
   lon: number;
 }
 
+interface MapStyle {
+  [key: string]: string;
+}
+
 const Page = () => {
   const mapRef = useRef<MapRef>(null);
 
@@ -33,15 +38,30 @@ const Page = () => {
     [180, 90],
   ];
 
+  const defaultMapStyle: MapStyle = {
+    streets: "mapbox://styles/mapbox/dark-v9",
+    global: "mapbox://styles/mapbox/dark-v11",
+  };
+
   const [mapBounds] = useState<LngLatBoundsLike>(defaultMapBounds);
+  const [mapStyle, setMapStyle] = useState("streets");
+
+  const toggleMapStyle = () => {
+    if (mapStyle === "streets") {
+      setMapStyle("global");
+    } else if (mapStyle === "global") {
+      setMapStyle("streets");
+    }
+  };
 
   const updateBounds = () => {
     if (mapRef.current) {
-      mapRef.current.resize();
       mapRef.current.fitBounds(mapBounds, {
         padding: 100,
         speed: 10,
+        zoom:1
       });
+      mapRef.current.resize();
     }
   };
 
@@ -77,7 +97,7 @@ const Page = () => {
   }
 
   return (
-    <div className="h-[88dvh] p-10">
+    <div className="h-[80dvh]">
       <div className="flex h-full rounded">
         {isLoading ? (
           <SpinnerComponent />
@@ -93,10 +113,11 @@ const Page = () => {
             }}
             onLoad={updateBounds}
             onResize={updateBounds}
-            mapStyle="mapbox://styles/mapbox/dark-v9"
+            mapStyle={defaultMapStyle[mapStyle]}
             renderWorldCopies={false}
             maxBounds={defaultMapBounds}
           >
+            <MapButtonBox mapStyle={mapStyle} toggleMapStyle={toggleMapStyle} />
             {orders && (
               <Source type="geojson" data={toGeoJSON(orders)}>
                 <Layer {...heatmapLayer} />
