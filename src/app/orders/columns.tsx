@@ -1,5 +1,6 @@
 import { type Order } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
 
@@ -29,6 +30,7 @@ export const columns: ColumnDef<Order>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Date Created" canFilter />
     ),
+    cell: ({ row }) => <p>{format(row.original.DateCreated, "PPP")}</p>,
   },
   {
     id: "OrderTotal",
