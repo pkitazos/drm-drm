@@ -2,8 +2,9 @@ import { Badge } from "~/components/ui/badge";
 import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
 import { type ColumnDef } from "@tanstack/react-table";
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { type Product } from "@prisma/client";
+import { format } from "date-fns";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -29,29 +30,42 @@ export const columns: ColumnDef<Product>[] = [
     id: "itemName",
     accessorKey: "ItemName",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" canFilter />
+      <DataTableColumnHeader
+        className="w-28"
+        column={column}
+        title="Name"
+        canFilter
+      />
     ),
+    cell: ({ row }) => <p className="w-20">{row.original.BrandName}</p>,
   },
   {
     id: "brandName",
     accessorKey: "BrandName",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Brand" />
+      <DataTableColumnHeader className="w-14" column={column} title="Brand" />
     ),
+    cell: ({ row }) => <p className="text-center">{row.original.BrandName}</p>,
   },
   {
     accessorKey: "SalesPrice",
     id: "SalesPrice",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Price" />
+      <DataTableColumnHeader className="w-14" column={column} title="Price" />
     ),
-    cell: ({ row }) => <div>£{row.original.SalesPrice}</div>,
+    cell: ({ row }) => (
+      <p className="text-center">£{row.original.SalesPrice}</p>
+    ),
   },
   {
     accessorKey: "QtyInStock",
     id: "qtyInStock",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Quantity In Stock" />
+      <DataTableColumnHeader
+        className="w-14"
+        column={column}
+        title="In Stock"
+      />
     ),
     cell: ({ row }) => <p className="text-center">{row.original.QtyInStock}</p>,
   },
@@ -59,7 +73,11 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "QtyOnOrder",
     id: "qtyOnOrder",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Quantity On Order" />
+      <DataTableColumnHeader
+        className="w-14"
+        column={column}
+        title="On Order"
+      />
     ),
     cell: ({ row }) => <p className="text-center">{row.original.QtyOnOrder}</p>,
   },
@@ -69,18 +87,67 @@ export const columns: ColumnDef<Product>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Category" />
     ),
-    cell: ({ row }) => <Badge>{row.original.Category}</Badge>,
+    cell: ({ row }) => (
+      <p className="justifycenter flex">
+        <Badge>{row.original.Category}</Badge>
+      </p>
+    ),
+  },
+  {
+    accessorKey: "Colour",
+    id: "color",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Colour" />
+    ),
+    cell: ({ row }) => (
+      <p className="justifycenter flex">
+        <Badge>{row.original.Colour}</Badge>
+      </p>
+    ),
+  },
+  {
+    accessorKey: "Pickup",
+    id: "pickup",
+    header: ({ column }) => (
+      <DataTableColumnHeader className="w-12" column={column} title="Pickup" />
+    ),
+    cell: ({ row }) => (
+      <p className="justifycenter flex">
+        <Badge>{row.original.Pickup}</Badge>
+      </p>
+    ),
+  },
+  {
+    accessorKey: "BodyShape",
+    id: "bodyShape",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="BodyShape" />
+    ),
+    cell: ({ row }) => (
+      <p className="justifycenter flex">
+        <Badge>{row.original.BodyShape}</Badge>
+      </p>
+    ),
   },
   {
     accessorKey: "Online",
     id: "online",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Online" />
+      <DataTableColumnHeader
+        className="w-12 text-center"
+        column={column}
+        title="Online"
+      />
     ),
-    cell: ({ row }) => {
-      console.log(row.original.Online);
-      return row.original.Online ? <Check /> : <></>;
-    },
+    cell: ({ row }) => (
+      <div className="flex justify-center">
+        {row.original.Online ? (
+          <Check className="stroke-lime-500" />
+        ) : (
+          <X className="stroke-red-600" />
+        )}
+      </div>
+    ),
   },
   {
     accessorKey: "CreatedOn",
@@ -88,5 +155,9 @@ export const columns: ColumnDef<Product>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Created On" />
     ),
+    cell: ({ row }) => {
+      const date = row.original.CreatedOn;
+      return <p className="text-center">{format(date, "dd-mm-yyyy mm:hh")}</p>;
+    },
   },
 ];
