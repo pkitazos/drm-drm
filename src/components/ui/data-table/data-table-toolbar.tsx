@@ -7,12 +7,10 @@ import { Button } from "../button";
 
 import { DataTableViewOptions } from "./data-table-view-options";
 
-import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { type ComponentType } from "react";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
-  filterableFields: FilterOption[];
 }
 
 export interface FilterOption {
@@ -26,7 +24,6 @@ export interface FilterOption {
 
 export function DataTableToolbar<TData>({
   table,
-  filterableFields,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -37,18 +34,6 @@ export function DataTableToolbar<TData>({
           {table.getFilteredSelectedRowModel().rows.length} /{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected
         </p>
-        {/* {filterableFields.length !== 0 &&
-          filterableFields.map(
-            (field, i) =>
-              table.getColumn(field.name) && (
-                <DataTableFacetedFilter
-                  key={i}
-                  column={table.getColumn(field.name)}
-                  title={field.name}
-                  options={field.values}
-                />
-              ),
-          )} */}
         {isFiltered && (
           <Button
             variant="ghost"

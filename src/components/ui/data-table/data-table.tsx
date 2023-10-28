@@ -30,14 +30,12 @@ interface DataTableProps<TData, TValue> {
   className?: string;
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  filterableFields: FilterOption[];
 }
 
 export function DataTable<TData, TValue>({
   className,
   columns,
   data,
-  filterableFields,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -61,7 +59,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className={cn(className)}>
       <div className="flex w-full items-center gap-4 py-4">
-        <DataTableToolbar table={table} filterableFields={filterableFields} />
+        <DataTableToolbar table={table} />
       </div>
       <div className="w-full rounded-md border">
         <Table>

@@ -4,7 +4,5 @@ import { DataTable } from "~/components/ui/data-table/data-table";
 import { columns } from "./columns";
 
 export function ClientSection({ customerData }: { customerData: Customer[] }) {
-  return (
-    <DataTable columns={columns} data={customerData} filterableFields={[]} />
-  );
+  return <DataTable columns={columns} data={customerData} />;
 }
