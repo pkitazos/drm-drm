@@ -3,10 +3,17 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import Link from "next/link";
 import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
 import { currencyFormatter } from "~/lib/currency";
 import { cn } from "~/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -82,9 +89,37 @@ export const columns: ColumnDef<Order>[] = [
       <DataTableColumnHeader column={column} title="Customer ID" canFilter />
     ),
     cell: ({ row }) => (
-      <Link href={`/customers/${row.original.CustomerId}`}>
-        {row.original.CustomerId}
-      </Link>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              asChild
+              variant="ghost"
+              className="underline decoration-dotted"
+            >
+              <Link href={`/customers/${row.original.CustomerId}`}>
+                {row.original.CustomerId}
+              </Link>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>See Customer Details</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    ),
+  },
+  {
+    id: "actions",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Actions" />
+    ),
+    cell: ({ row }) => (
+      <Button asChild variant="outline">
+        <Link href={`/customers/${row.original.CustomerId}`}>
+          Order Details
+        </Link>
+      </Button>
     ),
   },
 ];
