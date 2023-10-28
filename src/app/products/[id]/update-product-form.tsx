@@ -24,7 +24,7 @@ import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
 import { api } from "~/trpc/react";
 
-export default function CreateProductForm({
+export default function UpdateProductForm({
   productData,
 }: {
   productData: Product;
