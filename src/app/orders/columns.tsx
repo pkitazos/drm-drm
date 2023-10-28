@@ -1,6 +1,7 @@
 import { type Order } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import Link from "next/link";
 import { Badge } from "~/components/ui/badge";
 import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
@@ -79,6 +80,11 @@ export const columns: ColumnDef<Order>[] = [
     accessorKey: "CustomerId",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Customer ID" canFilter />
+    ),
+    cell: ({ row }) => (
+      <Link href={`/customers/${row.original.CustomerId}`}>
+        {row.original.CustomerId}
+      </Link>
     ),
   },
 ];
