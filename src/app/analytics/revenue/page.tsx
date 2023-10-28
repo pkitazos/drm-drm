@@ -1,23 +1,18 @@
-"use client";
+import { api } from "~/trpc/server";
+import ClientPlot from "./client-plot";
 
-import Plot from "react-plotly.js";
-import { SpinnerComponent } from "~/components/ui/spinner";
-import { api } from "~/trpc/react";
+// interface OrderWithPrice {
+//   Id: number;
+//   DateCreated: Date;
+//   OrderTotal: number;
+//   OrderStatus: string;
+//   addressId: string;
+//   CustomerId: number;
+// }
 
-interface OrderWithPrice {
-  Id: number;
-  DateCreated: Date;
-  OrderTotal: number;
-  OrderStatus: string;
-  addressId: string;
-  CustomerId: number;
-}
-
-const Page = () => {
-  const { data: allOrders } = api.analytics.getAllOrders.useQuery();
-
-  const { data: revenueByCategory } =
-    api.analytics.getGroupedOrdersAndCategories.useQuery();
+const Page = async () => {
+  const allOrders = await api.analytics.getAllOrders.query();
+  const revenueByCategory = await api.analytics.getGroupedOrdersAndCategories.query();
 
   if (!allOrders || !revenueByCategory) return;
 
@@ -26,11 +21,7 @@ const Page = () => {
       (sum += value)
   )(0);
 
-  // ["2019", "2020", "2021", "2022", "2023"]
-
-  console.log(revenueByCategory)
-
-  let test = Object.keys(revenueByCategory).map((category) => {
+  let categoryData = Object.keys(revenueByCategory).map((category) => {
     return {
       x: ["2019", "2020", "2021", "2022", "2023"], 
       y: revenueByCategory[category],
@@ -42,8 +33,7 @@ const Page = () => {
   return (
     <div className="h-[88dvh] ">
       <div className="flex h-full justify-center">
-        <Plot
-          data={[
+        < ClientPlot data={[
             {
               x: allOrders.map((order) => order.DateCreated),
               y: allOrders.map((order) => order.OrderTotal).map(cumulativeSum),
@@ -51,23 +41,8 @@ const Page = () => {
               mode: "lines",
               marker: { color: "red" },
             },
-          ]}
-          layout={{
-            width: 900,
-            height: 700,
-            title: "Total Revenue",
-          }}
-        />
-        <Plot
-        // @ts-ignore
-          data={test}
-          layout={{
-            width: 900,
-            height: 700,
-            title: "Total Revenue Per Category",
-            barmode: "stack",
-          }}
-        />
+          ]} title="Total Revenue"  />
+        < ClientPlot data={categoryData} title="Total Revenue Per Category" barmode="stack" />
       </div>
     </div>
   );
