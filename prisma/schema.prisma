@@ -90,7 +90,7 @@ model Customer {
     avatar       String
     address      Address @relation(fields: [addressId], references: [id])
     /// @zod.optional()
-    loyaltyLevel Int     @default(0)
+    LoyaltyLevel Int     @default(0)
     addressId    String
     Order        Order[]
 }

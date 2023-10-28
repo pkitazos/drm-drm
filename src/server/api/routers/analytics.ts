@@ -7,7 +7,28 @@ export const analyticsRouter = createTRPCRouter({
     .query(async ({ ctx}) => {
         return await ctx.db.order.findMany({
             include: {
-                ShippingAddress: true
+                ShippingAddress: {
+                    select: {
+                        lat: true,
+                        lon: true
+                    }
+                }
+            }
+        });
+      }),
+
+    getOrdersAndPrice: publicProcedure
+    .query(async ({ ctx}) => {
+        return await ctx.db.order.findMany({
+            include: {
+                Products: {
+                    select: {
+                        Category: true
+                    }
+                }
+            },
+            orderBy: {
+                DateCreated:"asc"
             }
         });
       }),
