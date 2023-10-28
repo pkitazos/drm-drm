@@ -1,4 +1,4 @@
-import CreateProductForm from "./form";
+import CreateProductForm from "./create-product-form";
 
 export default function Page() {
   return (
