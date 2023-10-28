@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import CreateProductForm from "./create-product-form";
+import UpdateProductForm from "./update-product-form";
 
 export default async function Page({
   params: { id },
@@ -13,7 +13,7 @@ export default async function Page({
         <div className="flex w-full justify-start">
           <h1 className="mb-8 text-4xl font-semibold">Edit product</h1>
         </div>
-        <CreateProductForm productData={data} />
+        <UpdateProductForm productData={data} />
       </div>
     </main>
   );

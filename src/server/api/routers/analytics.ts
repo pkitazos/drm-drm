@@ -15,7 +15,65 @@ export const analyticsRouter = createTRPCRouter({
       },
     });
   }),
+  getOrdersAndAddress: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.db.order.findMany({
+      include: {
+        ShippingAddress: {
+          select: {
+            lat: true,
+            lon: true,
+          },
+        },
+      },
+    });
+  }),
 
+  getAllOrders: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.db.order.findMany({
+      orderBy: {
+        DateCreated: "asc",
+      },
+    });
+  }),
+
+  getGroupedOrdersAndCategories: publicProcedure.query(async ({ ctx }) => {
+    type CategoryDict = Record<string, number[]>;
+
+    const getDataForYears = async () => {
+      const yearlyData = await ctx.db.order.findMany({
+        include: {
+          Products: {
+            select: {
+              Category: true,
+            },
+          },
+        },
+      });
+
+      const categories: CategoryDict = {};
+
+      // {"CATE": [PRICE2019, PRICE2020, PRICE2021, PRICE2022, PRICE2023]}
+
+      for (const data of yearlyData) {
+        const year = data.DateCreated.getFullYear().toString()!;
+        const category = data.Products[0]?.Category ?? "";
+
+        if (!Object.keys(categories).includes(category)) {
+          categories[category] = [0, 0, 0, 0, 0];
+        }
+
+        if (year == "2019") categories[category]![0] += data.OrderTotal;
+        else if (year == "2020") categories[category]![1] += data.OrderTotal;
+        else if (year == "2021") categories[category]![2] += data.OrderTotal;
+        else if (year == "2022") categories[category]![3] += data.OrderTotal;
+        else if (year == "2023") categories[category]![4] += data.OrderTotal;
+      }
+
+      return categories;
+    };
+
+    return await getDataForYears();
+  }),
   getYoyRevenue: publicProcedure.query(async ({ ctx }) => {
     const orders = await ctx.db.order.findMany({
       orderBy: {
@@ -23,7 +81,7 @@ export const analyticsRouter = createTRPCRouter({
       },
     });
 
-    let yoyArr = new Array(20).fill(0);
+    const yoyArr = new Array(20).fill(0);
 
     const yoy = (order: { DateCreated: Date; OrderTotal: number }) => {
       switch (true) {
@@ -95,9 +153,7 @@ export const analyticsRouter = createTRPCRouter({
   }),
 
   getGroupedOrdersAndCategories: publicProcedure.query(async ({ ctx }) => {
-    interface CategoryDict {
-      [key: string]: number[];
-    }
+    type CategoryDict = Record<string, number[]>;
 
     const getDataForYears = async () => {
       const yearlyData = await ctx.db.order.findMany({
@@ -115,8 +171,8 @@ export const analyticsRouter = createTRPCRouter({
       // {"CATE": [PRICE2019, PRICE2020, PRICE2021, PRICE2022, PRICE2023]}
 
       for (let i = 0; i < yearlyData.length; i++) {
-        let year = yearlyData[i]?.DateCreated.getFullYear().toString()!;
-        let category = yearlyData[i]?.Products[0]?.Category!;
+        const year = yearlyData[i]?.DateCreated.getFullYear().toString()!;
+        const category = yearlyData[i]?.Products[0]?.Category!;
 
         if (!Object.keys(categories).includes(category)) {
           categories[category] = [0, 0, 0, 0, 0];

@@ -62,27 +62,45 @@ const Page = async () => {
   }
 
   console.log(getDates())
+import { api } from "~/trpc/server";
+import ClientPlot from "./client-plot";
+
+const Page = async () => {
+  const allOrders = await api.analytics.getAllOrders.query();
+  const revenueByCategory =
+    await api.analytics.getGroupedOrdersAndCategories.query();
+
+  if (!allOrders || !revenueByCategory) return;
+
+  const cumulativeSum = (
+    (sum) => (value: number) =>
+      (sum += value)
+  )(0);
+
+  const categoryData = Object.keys(revenueByCategory).map((category) => {
+    return {
+      x: ["2019", "2020", "2021", "2022", "2023"],
+      y: revenueByCategory[category],
+      name: `${category}`,
+      type: "bar",
+    };
+  });
 
   return (
-    <div className="h-[88dvh] ">
-      <div className="flex h-full justify-center">
-        <ClientPlot
-          data={[
-            {
-              x: getDates(),
-              y: yoy,
-              type: "scatter",
-              mode: "lines",
-              marker: { color: "red" },
-            },
-          ]}
-          title="Total Revenue"
-        />
-        <ClientPlot
-          data={categoryData}
-          title="Total Revenue Per Category"
-          barmode="stack"
-        />
+    <div className="h-[88dvh]">
+        <div className="flex h-full justify-center">
+        <Plot
+        data={[
+          {
+            x: orders.map((order) => order.DateCreated),
+            y: orders.map((order) => order.OrderTotal).map(cumulativeSum),
+            type: 'scatter',
+            mode: 'lines+markers',
+            marker: {color: 'red'},
+          },
+        ]}
+        layout={ {width: 700, height: 700, title: 'A Fancy Plot'} }
+      />
       </div>
     </div>
   );

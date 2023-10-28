@@ -1,13 +1,13 @@
 "use client";
 
-import Map, { Layer, MapRef, ScaleControl, Source } from "react-map-gl";
-import { LngLatBoundsLike } from "mapbox-gl";
+import Map, { Layer, type MapRef, ScaleControl, Source } from "react-map-gl";
+import { type LngLatBoundsLike } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useRef, useState } from "react";
 import { api } from "~/trpc/react";
 import { SpinnerComponent } from "~/components/ui/spinner";
 import { env } from "~/env.mjs";
-import { Feature, FeatureCollection } from "geojson";
+import { type Feature, type FeatureCollection } from "geojson";
 import { heatmapLayer } from "./map-style";
 import { MapButtonBox } from "./map-box";
 
@@ -26,9 +26,7 @@ interface ShippingAddress {
   lon: number;
 }
 
-interface MapStyle {
-  [key: string]: string;
-}
+type MapStyle = Record<string, string>;
 
 const Page = () => {
   const mapRef = useRef<MapRef>(null);
@@ -59,7 +57,7 @@ const Page = () => {
       mapRef.current.fitBounds(mapBounds, {
         padding: 100,
         speed: 10,
-        zoom:1
+        zoom: 1,
       });
       mapRef.current.resize();
     }
