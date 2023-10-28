@@ -1,5 +1,5 @@
 "use client";
-import { ChevronRightIcon, HomeIcon, Slash } from "lucide-react";
+import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -12,7 +12,6 @@ export function Breadcrumbs() {
 
   return (
     <ol className="flex items-center gap-x-4" aria-label="Breadcrumb">
-
       {paths.length !== 0 &&
         paths.map((path, i) => (
           <li

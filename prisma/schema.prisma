@@ -82,17 +82,18 @@ enum Shape {
 }
 
 model Customer {
-    Id           Int     @id
+    Id           Int           @id
     first_name   String
     last_name    String
     email        String
     phone_number String
     avatar       String
-    address      Address @relation(fields: [addressId], references: [id])
+    address      Address       @relation(fields: [addressId], references: [id])
     /// @zod.optional().default(0)
     LoyaltyLevel Int
     addressId    String
     Order        Order[]
+    UserLinking  UserLinking[]
 }
 
 model Address {
@@ -175,14 +176,30 @@ model Session {
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum Role {
+    Admin
+    Customer
+}
+
+model UserLinking {
+    user       User     @relation(fields: [userId], references: [id])
+    customer   Customer @relation(fields: [customerId], references: [Id])
+    userId     String   @unique
+    customerId Int      @unique
+
+    @@id([userId, customerId])
+}
+
 model User {
-    id            String    @id @default(cuid())
+    id            String        @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?       @unique
     emailVerified DateTime?
     image         String?
+    role          Role          @default(Customer)
     accounts      Account[]
     sessions      Session[]
+    UserLinking   UserLinking[]
 }
 
 model VerificationToken {
