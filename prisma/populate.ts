@@ -153,7 +153,7 @@ async function add_orders() {
 }
 
 async function main() {
-  await add_products();
+  // await add_products();
   await add_customers();
   await add_orders();
 }
