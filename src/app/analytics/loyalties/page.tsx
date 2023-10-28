@@ -20,7 +20,7 @@ const Page = async () => {
       <div className="flex h-full justify-center">
         <ClientPlot
           data={categoryData}
-          title="Total Revenue Per Category (2019-2023)"
+          title="Total Revenue Per Category By Demographic (2019-2023)"
           barmode="group"
           width={1400}
           height={700}
