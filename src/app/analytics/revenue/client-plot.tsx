@@ -1,28 +1,33 @@
-"use client"
+"use client";
 
-import React, { FunctionComponent } from 'react'
-import Plot from 'react-plotly.js'
+import React, { type FunctionComponent } from "react";
+import Plot from "react-plotly.js";
 
 interface ClientPlot {
-    data: any[]
-    title: string
-    barmode?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any[];
+  title: string;
+  barmode?: string;
 }
 
-const ClientPlot: FunctionComponent<ClientPlot> = ({ data, title, barmode}) => {
+const ClientPlot: FunctionComponent<ClientPlot> = ({
+  data,
+  title,
+  barmode,
+}) => {
   return (
     <Plot
+      data={data}
+      layout={{
+        width: 900,
+        height: 700,
+        title: title,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-          data={data}
-          layout={{
-            width: 900,
-            height: 700,
-            title: title,
-            // @ts-ignore
-            barmode: barmode,
-          }}
+        barmode: barmode,
+      }}
     />
-  )
-}
+  );
+};
 
-export default ClientPlot
+export default ClientPlot;
