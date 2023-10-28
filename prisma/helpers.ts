@@ -1,7 +1,7 @@
 import { type Colour, type Pickup, type Shape } from "@prisma/client";
 import { z } from "zod";
 
-const pickups = [
+export const pickups = [
   "ElectroAcoustic",
   "SS",
   "SSS",
@@ -22,7 +22,7 @@ export const PickupSchema = z
   .transform((e) => (pickups[e] ?? "ElectroAcoustic") as Pickup)
   .or(z.enum(pickups));
 
-const colours = [
+export const colours = [
   "Red",
   "Orange",
   "Yellow",
@@ -47,7 +47,7 @@ export const ColourSchema = z
   .transform((e) => (colours[e] ?? "Red") as Colour)
   .or(z.enum(colours));
 
-const shapes = [
+export const shapes = [
   "SStyle",
   "TStyle",
   "DoubleCut",

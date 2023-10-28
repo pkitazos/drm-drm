@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { FileUploadButton } from "~/components/file-upload-button";
 import { Button } from "~/components/ui/button";
+import { ProductForm } from "~/components/product-form";
 
 export default function Page() {
   return (
@@ -21,7 +22,9 @@ export default function Page() {
           <FileUploadButton />
         </Button>
       </div>
-      <div className="basis-2/3 bg-green-100">Test form</div>
+      <div className="basis-2/3 bg-green-100">
+        <ProductForm />
+      </div>
     </main>
   );
 }
