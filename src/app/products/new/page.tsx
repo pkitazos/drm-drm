@@ -1,11 +1,16 @@
 import Image from "next/image";
+
 import { FileUploadButton } from "~/components/file-upload-button";
+import { ProductForm } from "~/components/product-form";
 import { Button } from "~/components/ui/button";
+import CreateProductForm from "./form";
 
 export default function Page() {
   return (
-    <main className="flex h-[88dvh] justify-center gap-5 p-5">
-      <div className="relative flex basis-1/3 flex-col items-center justify-center rounded border">
+    <main className="flex h-[80dvh] justify-center gap-5 p-5">
+      <CreateProductForm />
+
+      {/* <div className="relative flex basis-1/3 flex-col items-center justify-center rounded border">
         <Image
           className="flex h-full object-contain"
           src="/test-guitar.jpg"
@@ -21,7 +26,9 @@ export default function Page() {
           <FileUploadButton />
         </Button>
       </div>
-      <div className="basis-2/3 bg-green-100">Test form</div>
+      <div className="basis-2/3 bg-green-100">
+        <ProductForm />
+      </div> */}
     </main>
   );
 }
