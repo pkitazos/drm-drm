@@ -29,3 +29,13 @@ const hello = {
   createdOn: "2015-01-30T00:00:00",
   // imageUrls: null,
 };
+const hello2 = {
+  itemName: "1993P 12-String Jetglo",
+  brandName: "Rickenbacker",
+  salesPrice: 499.0,
+  qtyInStock: 2,
+  qtyOnOrder: 0,
+  category: "GUEG_2",
+  online: true,
+  createdOn: "2015-01-30T00:00:00",
+};

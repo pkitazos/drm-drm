@@ -1,11 +1,21 @@
-import { Badge } from "~/components/ui/badge"
+import { Badge } from "~/components/ui/badge";
 import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
 import { type ColumnDef } from "@tanstack/react-table";
 import { Check } from "lucide-react";
-import { type Product } from "@prisma/client";
 
-export const columns: ColumnDef<Product>[] = [
+export interface ProductData {
+  ItemName: string;
+  BrandName: string;
+  SalesPrice: number;
+  QtyInStock: number;
+  QtyOnOrder: number;
+  Category: string;
+  Online: boolean;
+  CreatedOn: string;
+}
+
+export const columns: ColumnDef<ProductData>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -27,61 +37,66 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     id: "itemName",
-    accessorKey: "Name",
+    accessorKey: "ItemName",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Name" canFilter />
     ),
   },
   {
     id: "brandName",
-    accessorKey: "Brand",
+    accessorKey: "BrandName",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Brand" />
     ),
   },
   {
     accessorKey: "SalesPrice",
-    id: "salesPrice",
-    header: ({column}) => {
-      <DataTableColumnHeader column={column} title="Price" />;
-    },
-    cell: ({ row }) => (<div>£{row.original.SalesPrice}</div>),
+    id: "SalesPrice",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Price" />
+    ),
+    cell: ({ row }) => <div>£{row.original.SalesPrice}</div>,
   },
   {
     accessorKey: "QtyInStock",
     id: "qtyInStock",
-    header: ({column}) => {
-      <DataTableColumnHeader column={column} title="Quantity In Stock" />;
-    }
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Quantity In Stock" />
+    ),
+    cell: ({ row }) => <p className="text-center">{row.original.QtyInStock}</p>,
   },
   {
-    accessorKey: "QtyInOrder",
-    id: "qtyInOrder",
-    header: ({column}) => {
-      <DataTableColumnHeader column={column} title="Quantity In Order" />;
-    }
+    accessorKey: "QtyOnOrder",
+    id: "qtyOnOrder",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Quantity On Order" />
+    ),
+    cell: ({ row }) => <p className="text-center">{row.original.QtyOnOrder}</p>,
   },
   {
     accessorKey: "Category",
     id: "category",
-    header: ({column}) => {
-      <DataTableColumnHeader column={column} title="Category" />;
-    },
-    cell: ({row}) => {<Badge>{row.original.Category}</Badge>}
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Category" />
+    ),
+    cell: ({ row }) => <Badge>{row.original.Category}</Badge>,
   },
   {
     accessorKey: "Online",
     id: "online",
-    header: ({column}) => {
-      <DataTableColumnHeader column={column} title="Category" />;
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Online" />
+    ),
+    cell: ({ row }) => {
+      console.log(row.original.Online);
+      return row.original.Online ? <Check /> : <></>;
     },
-    cell: ({row}) => {row.original.Online ? <Check /> : <></>}
   },
   {
     accessorKey: "CreatedOn",
     id: "createdOn",
-    header: ({column}) => {
-      <DataTableColumnHeader column={column} title="Created On" />;
-    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Created On" />
+    ),
   },
 ];
