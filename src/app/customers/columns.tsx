@@ -45,8 +45,8 @@ export const columns: ColumnDef<Customer>[] = [
     ),
   },
   {
-    id: "loyalty_level",
-    accessorKey: "loyaltyLevel",
+    id: "LoyaltyLevel",
+    accessorKey: "LoyaltyLevel",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Loyalty Level" canFilter />
     ),
