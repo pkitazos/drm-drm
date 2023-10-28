@@ -21,14 +21,8 @@ interface OrderWithAddresses {
 }
 
 interface ShippingAddress {
-  city: string;
-  country: string;
-  id: string;
   lat: number;
   lon: number;
-  street_address: string;
-  street_name: string;
-  zip_code: string;
 }
 
 const Page = () => {
@@ -61,7 +55,13 @@ const Page = () => {
   function toGeoJSONFeature(order: OrderWithAddresses): Feature {
     return {
       type: "Feature",
-      properties: { id: "ak16994521", mag: 2.3, time: 1507425650893, felt: null, tsunami: 0 },
+      properties: {
+        id: "ak16994521",
+        mag: 2.3,
+        time: 1507425650893,
+        felt: null,
+        tsunami: 0,
+      },
       geometry: {
         type: "Point",
         coordinates: [order.ShippingAddress.lon, order.ShippingAddress.lat],
@@ -69,7 +69,7 @@ const Page = () => {
     };
   }
 
-  function toGeoJSON(orders: OrderWithAddresses[]): FeatureCollection  {
+  function toGeoJSON(orders: OrderWithAddresses[]): FeatureCollection {
     return {
       type: "FeatureCollection",
       features: orders.map((order) => toGeoJSONFeature(order)),
@@ -93,7 +93,7 @@ const Page = () => {
             }}
             onLoad={updateBounds}
             onResize={updateBounds}
-            mapStyle="mapbox://styles/mapbox/dark-v11"
+            mapStyle="mapbox://styles/mapbox/dark-v9"
             renderWorldCopies={false}
             maxBounds={defaultMapBounds}
           >
@@ -102,7 +102,6 @@ const Page = () => {
                 <Layer {...heatmapLayer} />
               </Source>
             )}
-
             <ScaleControl unit="metric" />
           </Map>
         )}
