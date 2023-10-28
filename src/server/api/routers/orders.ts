@@ -29,12 +29,12 @@ export const orderRouter = createTRPCRouter({
     }),
 
   getByUserId: publicProcedure
-    .input(z.object({ customerId: z.number() }))
-    .query(async ({ ctx, input: { customerId } }) => {
+    .input(z.object({ CustomerId: z.number() }))
+    .query(async ({ ctx, input: { CustomerId } }) => {
       return await ctx.db.order.findFirstOrThrow({
         where: {
           //where customerId = customerId
-          customerId,
+          CustomerId,
         },
       });
     }),
