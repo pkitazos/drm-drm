@@ -6,7 +6,7 @@ import {
 } from "@prisma/client";
 import { z } from "zod";
 
-const orderStatuses = [
+export const orderStatuses = [
   "Placed",
   "Dispatched",
   "Delivering",
@@ -22,7 +22,7 @@ export const OrderStatusSchema = z
   .transform((e) => (orderStatuses[e] ?? "Placed") as OrderStatus)
   .or(z.enum(orderStatuses));
 
-const pickups = [
+export const pickups = [
   "ElectroAcoustic",
   "SS",
   "SSS",
