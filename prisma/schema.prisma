@@ -10,6 +10,7 @@ generator zod {
     output       = "../node_modules/@prisma/schemas"
     modelSuffix  = "Model"
     useDecimalJs = true
+    imports      = "./helpers"
 }
 
 datasource db {
@@ -76,19 +77,20 @@ enum Shape {
     Combo
     Head
     Cabinet
+    Special
 }
 
 model Customer {
-    id            Int     @id @default(autoincrement())
-    first_name    String
-    last_name     String
-    email         String
-    phone_number  String
-    avatar        String
-    address       Address @relation(fields: [addressId], references: [id])
-    loyalty_level Int
-    addressId     String
-    Order         Order[]
+    Id           Int     @id @default(autoincrement())
+    first_name   String
+    last_name    String
+    email        String
+    phone_number String
+    avatar       String
+    address      Address @relation(fields: [addressId], references: [id])
+    loyaltyLevel Int
+    addressId    String
+    Order        Order[]
 }
 
 model Address {
@@ -103,37 +105,39 @@ model Address {
 }
 
 model Order {
-    id               Int         @id
-    customer         Customer    @relation(fields: [customerId], references: [id])
-    shipping_address Address     @relation(fields: [addressId], references: [id])
-    products         Product[]
-    date_created     DateTime
-    order_total      Float
-    order_status     OrderStatus
-    customerId       Int
-    addressId        String
+    Id              Int         @id
+    Customer        Customer    @relation(fields: [customerId], references: [Id])
+    ShippingAddress Address     @relation(fields: [addressId], references: [id])
+    // Products        Product[] //TODO implement this
+    DateCreated     DateTime
+    OrderTotal      Float
+    OrderStatus     OrderStatus
+    addressId       String
+    customerId      Int
 }
 
 model Product {
-    sku_id         String   @id
-    asn            String
-    category       String
-    online         Boolean
-    item_name      String
-    title          String
-    brand_name     String
-    description    String
-    product_detail String
-    sales_price    Float
-    picture_main   String
-    qty_in_stock   Int
-    qty_on_order   Int
-    colour         Colour
-    pickup         Pickup
-    shape          Shape
-    create_on      DateTime
-    Order          Order?   @relation(fields: [orderId], references: [id])
-    orderId        Int?
+    SKU_ID        String   @id
+    ASN           String
+    Category      String
+    Online        Boolean
+    ItemName      String
+    Title         String
+    BrandName     String
+    Description   String?
+    ProductDetail String?
+    SalesPrice    Float
+    PictureMain   String
+    QtyInStock    Int
+    QtyOnOrder    Int
+    /// @zod.custom(imports.ColourSchema)
+    Colour        Colour
+    /// @zod.custom(imports.PickupSchema)
+    Pickup        Pickup
+    /// @zod.custom(imports.ShapeSchema)
+    BodyShape     Shape
+    /// @zod.custom(z.coerce.date())
+    CreatedOn     DateTime
 }
 
 // Necessary for Next auth
