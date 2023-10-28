@@ -77,6 +77,7 @@ enum Shape {
     Combo
     Head
     Cabinet
+    Special
 }
 
 model Customer {

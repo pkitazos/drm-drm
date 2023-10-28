@@ -64,6 +64,7 @@ const shapes = [
   "Combo",
   "Head",
   "Cabinet",
+  "Special",
 ] as const;
 
 export const ShapeSchema = z
