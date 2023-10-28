@@ -1,3 +1,9 @@
+import { ClientSection } from "./client-section";
+
 export default function Page() {
-  return <main className="grid h-[90dvh] place-items-center">products</main>;
+  return (
+    <main className="flex h-[90dvh] justify-center">
+      <ClientSection />
+    </main>
+  );
 }
