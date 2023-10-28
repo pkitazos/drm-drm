@@ -31,7 +31,7 @@ export const orderRouter = createTRPCRouter({
   getByUserId: publicProcedure
     .input(z.object({ CustomerId: z.number() }))
     .query(async ({ ctx, input: { CustomerId } }) => {
-      return await ctx.db.order.findFirstOrThrow({
+      return await ctx.db.order.findMany({
         where: {
           //where customerId = customerId
           CustomerId,

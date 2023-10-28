@@ -8,12 +8,6 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
 import { currencyFormatter } from "~/lib/currency";
 import { cn } from "~/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "~/components/ui/tooltip";
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -81,33 +75,6 @@ export const columns: ColumnDef<Order>[] = [
         </Badge>
       );
     },
-  },
-  {
-    id: "CustomerId",
-    accessorKey: "CustomerId",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Customer ID" canFilter />
-    ),
-    cell: ({ row }) => (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>
-            <Button
-              asChild
-              variant="ghost"
-              className="underline decoration-dotted"
-            >
-              <Link href={`/customers/${row.original.CustomerId}`}>
-                {row.original.CustomerId}
-              </Link>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>See Customer Details</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    ),
   },
   {
     id: "actions",

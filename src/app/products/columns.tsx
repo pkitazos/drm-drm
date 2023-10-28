@@ -5,6 +5,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { Check, X } from "lucide-react";
 import { type Product } from "@prisma/client";
 import { format } from "date-fns";
+import { currencyFormatter } from "~/lib/currency";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -54,7 +55,9 @@ export const columns: ColumnDef<Product>[] = [
       <DataTableColumnHeader className="w-14" column={column} title="Price" />
     ),
     cell: ({ row }) => (
-      <p className="text-center">£{row.original.SalesPrice}</p>
+      <p className="text-center">
+        {currencyFormatter.format(row.original.SalesPrice)}
+      </p>
     ),
   },
   {
