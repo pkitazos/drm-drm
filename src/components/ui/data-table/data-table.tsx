@@ -1,13 +1,4 @@
 "use client";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~/components/ui/table";
-import { cn } from "~/lib/utils";
 import type {
   ColumnDef,
   ColumnFiltersState,
@@ -23,19 +14,35 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
+import { cn } from "~/lib/utils";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableViewOptions } from "./data-table-view-options";
+import { DataTableToolbar, type FilterOption } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   className?: string;
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  searchableField: string;
+  filterableFields: {
+    name: string;
+    values: FilterOption[];
+  }[];
 }
 
 export default function DataTable<TData, TValue>({
   className,
   columns,
   data,
+  searchableField,
+  filterableFields,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -58,12 +65,12 @@ export default function DataTable<TData, TValue>({
 
   return (
     <div className={cn(className)}>
-      <div className="flex items-center gap-4 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} /{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected
-        </div>
-        <DataTableViewOptions table={table} />
+      <div className="flex w-full items-center gap-4 py-4">
+        <DataTableToolbar
+          table={table}
+          searchableField={searchableField}
+          filterableFields={filterableFields}
+        />
       </div>
       <div className="w-full rounded-md border">
         <Table>
