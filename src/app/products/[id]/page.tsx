@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Upload from "~/components/upload";
+import Upload from "~/components/file-upload-button";
 
 export default function Page() {
   return (
