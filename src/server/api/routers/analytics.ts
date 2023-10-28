@@ -62,7 +62,7 @@ export const analyticsRouter = createTRPCRouter({
       },
     });
 
-    const yoyArr = new Array(20).fill(0);
+    const yoyArr = new Array<number>(20).fill(0);
 
     const yoy = (order: { DateCreated: Date; OrderTotal: number }) => {
       switch (true) {
@@ -130,6 +130,13 @@ export const analyticsRouter = createTRPCRouter({
     };
 
     orders.map((order) => yoy(order));
-    return yoyArr;
+
+    const results = new Array<number>(16).fill(0);
+
+    for (let i=0; i< yoyArr.length-4; i++) {
+      results[i] = (yoyArr[i+4]!/yoyArr[i]!)-1
+    }
+
+    return results;
   }),
 });

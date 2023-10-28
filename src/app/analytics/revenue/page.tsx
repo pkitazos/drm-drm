@@ -8,11 +8,6 @@ const Page = async () => {
 
   if (!yoy || !revenueByCategory) return;
 
-  const cumulativeSum = (
-    (sum) => (value: number) =>
-      (sum += value)
-  )(0);
-
   const categoryData = Object.keys(revenueByCategory).map((category) => {
     return {
       x: ["2019", "2020", "2021", "2022", "2023"],
@@ -22,37 +17,24 @@ const Page = async () => {
     };
   });
 
-  const getDates = () => {
-    const dates = [];
-    let temp = new Date("2019-01-01");
-    for (let i = 0; i < 4; i++) {
-      dates.push(temp);
-      temp.setMonth(temp.getMonth() + 3);
-    }
-    temp = new Date("2020-01-01");
-    for (let i = 0; i < 4; i++) {
-      dates.push(temp);
-      temp.setMonth(temp.getMonth() + 3);
-    }
-    temp = new Date("2021-01-01");
-    for (let i = 0; i < 4; i++) {
-      dates.push(temp);
-      temp.setMonth(temp.getMonth() + 3);
-    }
-    temp = new Date("2022-01-01");
-    for (let i = 0; i < 4; i++) {
-      dates.push(temp);
-      temp.setMonth(temp.getMonth() + 3);
-    }
-    temp = new Date("2023-01-01");
-    for (let i = 0; i < 4; i++) {
-      dates.push(temp);
-      temp.setMonth(temp.getMonth() + 3);
-    }
-    return dates;
-  };
-
-  console.log(getDates());
+  const dates = [
+    new Date("2020-01-01"),
+    new Date("2020-04-01"),
+    new Date("2020-07-01"),
+    new Date("2020-10-01"),
+    new Date("2021-01-01"),
+    new Date("2021-04-01"),
+    new Date("2021-07-01"),
+    new Date("2021-10-01"),
+    new Date("2022-01-01"),
+    new Date("2022-04-01"),
+    new Date("2022-07-01"),
+    new Date("2022-10-01"),
+    new Date("2023-01-01"),
+    new Date("2023-04-01"),
+    new Date("2023-07-01"),
+    new Date("2023-10-01"),
+  ];
 
   return (
     <div className="h-[88dvh] ">
@@ -60,18 +42,18 @@ const Page = async () => {
         <ClientPlot
           data={[
             {
-              x: getDates(),
+              x: dates,
               y: yoy,
               type: "scatter",
               mode: "lines",
               marker: { color: "red" },
             },
           ]}
-          title="Total Revenue"
+          title="Year-Over-Year Quarterly Revenue (2019-2023)"
         />
         <ClientPlot
           data={categoryData}
-          title="Total Revenue Per Category"
+          title="Total Revenue Per Category (2019-2023)"
           barmode="stack"
         />
       </div>
