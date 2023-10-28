@@ -1,10 +1,9 @@
 import { Loader } from "lucide-react";
-import { FunctionComponent } from "react";
 
-export const SpinnerComponent: FunctionComponent = () => {
+export function SpinnerComponent() {
   return (
-    <div className="grid place-items-center w-full">
+    <div className="grid w-full place-items-center">
       <Loader className="animate-spin" />
     </div>
   );
-};
+}

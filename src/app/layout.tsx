@@ -1,15 +1,14 @@
-import "~/styles/globals.css";
-
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
-
-import { TRPCReactProvider } from "~/trpc/react";
-import Header from "~/components/header";
-
-import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { Toaster } from "react-hot-toast";
 import { extractRouterConfig } from "uploadthing/server";
+
 import { ourFileRouter } from "~/app/api/uploadthing/core";
 import Sidebar from "~/components/sidebar";
+import Header from "~/components/header";
+import "~/styles/globals.css";
+import { TRPCReactProvider } from "~/trpc/react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -42,6 +41,7 @@ export default function RootLayout({
           </div>
           </div>
         </TRPCReactProvider>
+        <Toaster />
       </body>
     </html>
   );
