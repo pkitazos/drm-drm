@@ -2,6 +2,7 @@ import { type Customer } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
 import { Checkbox } from "~/components/ui/checkbox";
+import { Star, StarOff } from "lucide-react";
 
 export const columns: ColumnDef<Customer>[] = [
   {
@@ -50,5 +51,38 @@ export const columns: ColumnDef<Customer>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Loyalty Level" canFilter />
     ),
+    cell: ({ row }) => {
+      const loyalty = row.original.LoyaltyLevel;
+
+      switch (loyalty) {
+        case 0:
+          return (
+            <>
+              <StarOff />
+            </>
+          );
+        case 1:
+          return (
+            <>
+              <Star className="text-yellow-400" />
+            </>
+          );
+        case 2:
+          return (
+            <>
+              <Star className="text-yellow-400" />
+              <Star className="text-yellow-400" />
+            </>
+          );
+        case 3:
+          return (
+            <>
+              <Star className="text-yellow-400" />
+              <Star className="text-yellow-400" />
+              <Star className="text-yellow-400" />
+            </>
+          );
+      }
+    },
   },
 ];
