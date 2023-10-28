@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { type Product } from "@prisma/client";
 import { ProductModel } from "@prisma/schemas";
 import { colours, pickups, shapes } from "prisma/helpers";
 import { useForm } from "react-hook-form";
@@ -23,12 +24,17 @@ import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
 import { api } from "~/trpc/react";
 
-export default function CreateProductForm() {
+export default function CreateProductForm({
+  productData,
+}: {
+  productData: Product;
+}) {
   const form = useForm<z.infer<typeof ProductModel>>({
     resolver: zodResolver(ProductModel),
+    defaultValues: productData,
   });
 
-  const { mutateAsync } = api.products.create.useMutation();
+  const { mutateAsync } = api.products.update.useMutation();
 
   const onSubmit = form.handleSubmit((productData) => {
     void mutateAsync({ data: productData });
