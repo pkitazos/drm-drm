@@ -3,6 +3,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
+import { currencyFormatter } from "~/lib/currency";
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -42,7 +43,9 @@ export const columns: ColumnDef<Order>[] = [
         canFilter
       />
     ),
-    cell: ({ row }) => <div>£{row.original.OrderTotal}</div>,
+    cell: ({ row }) => (
+      <div>{currencyFormatter.format(row.original.OrderTotal)}</div>
+    ),
   },
   {
     id: "OrderStatus",
