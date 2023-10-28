@@ -18,7 +18,7 @@ export default async function Page({
   const address = await api.addresses.getById.query({ id: userData.addressId });
 
   return (
-    <main className="grid h-[88dvh] place-items-center">
+    <main className="grid h-[86dvh] place-items-center">
       <section className="flex w-full justify-center gap-16">
         <div className="flex flex-col justify-center">
           <Image
