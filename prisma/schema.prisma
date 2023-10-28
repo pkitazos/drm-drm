@@ -144,7 +144,10 @@ model Product {
     BodyShape     Shape
     /// @zod.custom(z.coerce.date())
     CreatedOn     DateTime
+    <<<<<<< HEAD
     Orders        Order[]
+    =======
+    >>>>>>> main
 }
 
 // Necessary for Next auth
