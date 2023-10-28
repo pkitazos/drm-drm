@@ -1,16 +1,8 @@
-import { Button } from "~/components/ui/button";
+import { Badge } from "~/components/ui/badge"
 import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
 import { type ColumnDef } from "@tanstack/react-table";
-import { LucideMoreHorizontal, Trash2 } from "lucide-react";
+import { Check } from "lucide-react";
 import { type Product } from "@prisma/client";
 
 export const columns: ColumnDef<Product>[] = [
@@ -34,59 +26,62 @@ export const columns: ColumnDef<Product>[] = [
     enableHiding: false,
   },
   {
-    id: "title",
-    accessorKey: "title",
+    id: "itemName",
+    accessorKey: "Name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" canFilter />
+      <DataTableColumnHeader column={column} title="Name" canFilter />
     ),
   },
   {
-    id: "supervisor",
-    accessorKey: "supervisorName",
+    id: "brandName",
+    accessorKey: "Brand",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Supervisor" />
+      <DataTableColumnHeader column={column} title="Brand" />
     ),
   },
   {
-    accessorKey: "actions",
-    id: "Actions",
-    header: () => {
-      return <div className="text-xs text-gray-500">Actions</div>;
+    accessorKey: "SalesPrice",
+    id: "salesPrice",
+    header: ({column}) => {
+      <DataTableColumnHeader column={column} title="Price" />;
     },
-    cell: ({ row }) => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <LucideMoreHorizontal className="h-4 w-4" />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <a href={`/projects/${row.original.id}`}>
-                <Button variant="link">View Details</Button>
-              </a>
-            </DropdownMenuItem>
-            {false && (
-              <DropdownMenuItem>
-                <Button
-                  className="w-full"
-                  variant="destructive"
-                  onClick={() => {
-                    return;
-                  }}
-                >
-                  <Trash2 className="h-4 w-4" />
-                  Delete
-                </Button>
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+    cell: ({ row }) => (<div>£{row.original.SalesPrice}</div>),
+  },
+  {
+    accessorKey: "QtyInStock",
+    id: "qtyInStock",
+    header: ({column}) => {
+      <DataTableColumnHeader column={column} title="Quantity In Stock" />;
+    }
+  },
+  {
+    accessorKey: "QtyInOrder",
+    id: "qtyInOrder",
+    header: ({column}) => {
+      <DataTableColumnHeader column={column} title="Quantity In Order" />;
+    }
+  },
+  {
+    accessorKey: "Category",
+    id: "category",
+    header: ({column}) => {
+      <DataTableColumnHeader column={column} title="Category" />;
+    },
+    cell: ({row}) => {<Badge>{row.original.Category}</Badge>}
+  },
+  {
+    accessorKey: "Online",
+    id: "online",
+    header: ({column}) => {
+      <DataTableColumnHeader column={column} title="Category" />;
+    },
+    cell: ({row}) => {row.original.Online ? <Check /> : <></>}
+  },
+  {
+    accessorKey: "CreatedOn",
+    id: "createdOn",
+    header: ({column}) => {
+      <DataTableColumnHeader column={column} title="Created On" />;
     },
   },
 ];
