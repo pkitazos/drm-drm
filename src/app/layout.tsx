@@ -28,12 +28,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <body className={`font-sans ${inter.variable} w-full`}>
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <TRPCReactProvider headers={headers()}>
           <Header />
           <Sidebar />
-          <div className="absolute left-14 top-[12dvh] p-10">{children}</div>
+          <div className="absolute left-14 top-[12dvh] w-[calc(100%-3.5rem)] p-10">
+            {children}
+          </div>
         </TRPCReactProvider>
         <Toaster />
       </body>
