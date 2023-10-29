@@ -25,6 +25,7 @@ export const orderRouter = createTRPCRouter({
           //where id = id
           Id,
         },
+        include: { Products: true },
       });
     }),
 

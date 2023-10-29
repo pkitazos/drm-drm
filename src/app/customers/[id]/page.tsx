@@ -1,9 +1,8 @@
+import { AddressCard } from "~/components/address-card";
+import { CustomerCard } from "~/components/customer-card";
+import { Separator } from "~/components/ui/separator";
 import { api } from "~/trpc/server";
 import { ClientSection } from "./client-section";
-import Image from "next/image";
-import { Separator } from "~/components/ui/separator";
-import { Loyalty } from "~/components/loyalty";
-import { AddressDisplay } from "~/components/address-display";
 
 export default async function Page({
   params: { id },
@@ -20,19 +19,7 @@ export default async function Page({
   return (
     <main className="grid place-items-center">
       <section className="flex w-full justify-center gap-16">
-        <div className="flex flex-col justify-center">
-          <Image
-            src={userData.avatar}
-            width={300}
-            height={300}
-            alt="user Avatar"
-            className="rounded-full border shadow-md"
-          />
-          <h1 className="mt-2 text-center text-2xl font-bold">
-            {userData.first_name} {userData.last_name}
-          </h1>
-          <Loyalty level={userData.LoyaltyLevel} />
-        </div>
+        <CustomerCard customer={userData} />
         <div className="mt-8 flex flex-col gap-6">
           <div className="rounded-md bg-accent p-5 shadow-md">
             <p>
@@ -43,7 +30,7 @@ export default async function Page({
               {userData.phone_number}
             </p>
           </div>
-          <AddressDisplay address={address} />
+          <AddressCard address={address} />
         </div>
       </section>
       <Separator className="my-5 mt-10" />
