@@ -4,7 +4,13 @@ import toast from "react-hot-toast";
 import { Button } from "~/components/ui/button";
 import { useCart } from "~/lib/cart-context";
 
-export function AddToCart({ product }: { product: Product }) {
+export function AddToCart({
+  product,
+  disabled,
+}: {
+  product: Product;
+  disabled: boolean;
+}) {
   const { add } = useCart();
   return (
     <Button
@@ -13,6 +19,7 @@ export function AddToCart({ product }: { product: Product }) {
         add(product);
         toast.success("Added item to cart");
       }}
+      disabled={disabled}
     >
       Add to cart
     </Button>

@@ -4,9 +4,11 @@ import { Separator } from "~/components/ui/separator";
 import { currencyFormatter } from "~/lib/currency";
 import { api } from "~/trpc/server";
 import { AddToCart } from "./add-to-cart";
+import { getServerAuthSession } from "~/server/auth";
 
 export default async function Page({ params }: { params: { item: string } }) {
   const product = await api.products.getById.query({ id: params.item });
+  const session = await getServerAuthSession();
 
   return (
     <div className="flex gap-8">
@@ -34,7 +36,7 @@ export default async function Page({ params }: { params: { item: string } }) {
               />
             )}
           </div>
-          <AddToCart product={product} />
+          <AddToCart product={product} disabled={!session} />
         </div>
         <div className="flex flex-col gap-3">
           <Separator className="my-10" />
