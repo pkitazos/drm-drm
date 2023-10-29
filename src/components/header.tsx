@@ -17,6 +17,7 @@ import { cn } from "~/lib/utils";
 import { AuthButton } from "./signin-button";
 import { useSession } from "next-auth/react";
 
+
 export default function Header() {
   const session = useSession();
   return (

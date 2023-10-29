@@ -18,7 +18,6 @@ export const AuthButton = () => {
           <AvatarImage src={data?.UserLinking[0]?.customer.avatar} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-
         <Button
           variant="outline"
           size="icon"
@@ -30,7 +29,6 @@ export const AuthButton = () => {
       </div>
     );
   }
-
   return (
     <Button
       variant="outline"
