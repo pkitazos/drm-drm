@@ -1,4 +1,4 @@
-import { AddressDisplay } from "~/components/address-display";
+import { AddressCard } from "~/components/address-card";
 import { CustomerCard } from "~/components/customer-card";
 import { Separator } from "~/components/ui/separator";
 import { api } from "~/trpc/server";
@@ -30,7 +30,7 @@ export default async function Page({
               {userData.phone_number}
             </p>
           </div>
-          <AddressDisplay address={address} />
+          <AddressCard address={address} />
         </div>
       </section>
       <Separator className="my-5 mt-10" />

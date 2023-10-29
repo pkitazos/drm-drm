@@ -1,7 +1,7 @@
 import { type Address } from "@prisma/client";
 import { MapPin } from "lucide-react";
 
-export const AddressDisplay = ({
+export const AddressCard = ({
   address: { street_address, street_name, city, country, zip_code },
 }: {
   address: Address;
