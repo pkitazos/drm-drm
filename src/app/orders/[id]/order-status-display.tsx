@@ -7,50 +7,30 @@ import {
   PackageX,
   Truck,
 } from "lucide-react";
+import { cn } from "~/lib/utils";
+
+const dict = {
+  Cancelled: 0,
+  Placed: 1,
+  Dispatched: 2,
+  Delivering: 3,
+  Delivered: 4,
+  Completed: 5,
+};
 
 export const OrderStatusDisplay = ({ status }: { status: OrderStatus }) => {
-  const placedCheck = (input: string) => {
-    return status != "Cancelled" ? "green-200" : "gray-" + input;
-  };
-  const dispatchedCheck = (input: string) => {
-    return status != "Cancelled" && status != "Placed"
-      ? "green-200"
-      : "gray-" + input;
-  };
-  const deliveringCheck = (input: string) => {
-    return status != "Cancelled" && status != "Placed" && status != "Dispatched"
-      ? "green-200"
-      : "gray-" + input;
-  };
-  const deliveredCheck = (input: string) => {
-    return status != "Cancelled" &&
-      status != "Placed" &&
-      status != "Dispatched" &&
-      status != "Delivering"
-      ? "green-200"
-      : "gray-" + input;
-  };
-  const completedCheck = (input: string) => {
-    return status != "Cancelled" &&
-      status != "Placed" &&
-      status != "Dispatched" &&
-      status != "Delivering"
-      ? "green-200"
-      : "gray-" + input;
-  };
-  const cancelledCheck = (input: string) => {
-    return status == "Cancelled" ? "red-100" : "gray-" + input;
-  };
+  const ord = dict[status]!;
 
   return (
     <ol className="relative flex gap-12 border-t border-gray-200 text-gray-500 dark:border-gray-700 dark:text-gray-400">
       <li>
         <span
-          className={`absolute flex h-8 w-8 items-center justify-center bg-${placedCheck(
-            "100",
-          )} -top-10 rounded-full ring-white dark:bg-${placedCheck(
-            "700",
-          )} dark:ring-gray-900`}
+          className={cn(
+            `absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full ring-white`,
+            ord > 0
+              ? "bg-green-200 text-green-500"
+              : "bg-gray-100 text-gray-700",
+          )}
         >
           <MailCheck />
         </span>
@@ -58,9 +38,12 @@ export const OrderStatusDisplay = ({ status }: { status: OrderStatus }) => {
       </li>
       <li>
         <span
-          className={`absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full bg-${dispatchedCheck(
-            "100",
-          )} ring-white dark:bg-${dispatchedCheck("700")} dark:ring-gray-900`}
+          className={cn(
+            `absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full ring-white`,
+            ord > 1
+              ? "bg-green-200 text-green-500"
+              : "bg-gray-100 text-gray-700",
+          )}
         >
           <Package />
         </span>
@@ -68,9 +51,12 @@ export const OrderStatusDisplay = ({ status }: { status: OrderStatus }) => {
       </li>
       <li>
         <span
-          className={`absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full bg-${deliveringCheck(
-            "100",
-          )} ring-white dark:bg-${deliveringCheck("700")} dark:ring-gray-900`}
+          className={cn(
+            `absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full ring-white`,
+            ord > 2
+              ? "bg-green-200 text-green-500"
+              : "bg-gray-100 text-gray-700",
+          )}
         >
           <Truck />
         </span>
@@ -78,9 +64,12 @@ export const OrderStatusDisplay = ({ status }: { status: OrderStatus }) => {
       </li>
       <li>
         <span
-          className={`absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full bg-${deliveredCheck(
-            "100",
-          )}  ring-white dark:bg-${deliveredCheck("700")} dark:ring-gray-900`}
+          className={cn(
+            `absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full ring-white`,
+            ord > 3
+              ? "bg-green-200 text-green-500"
+              : "bg-gray-100 text-gray-700",
+          )}
         >
           <PackageCheck />
         </span>
@@ -88,9 +77,12 @@ export const OrderStatusDisplay = ({ status }: { status: OrderStatus }) => {
       </li>
       <li>
         <span
-          className={`absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full bg-${completedCheck(
-            "100",
-          )} ring-white dark:bg-${completedCheck("700")} dark:ring-gray-900`}
+          className={cn(
+            `absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full ring-white`,
+            ord > 4
+              ? "bg-green-200 text-green-500"
+              : "bg-gray-100 text-gray-700",
+          )}
         >
           <PackageOpen />
         </span>
@@ -98,9 +90,10 @@ export const OrderStatusDisplay = ({ status }: { status: OrderStatus }) => {
       </li>
       <li>
         <span
-          className={`absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full bg-${cancelledCheck(
-            "100",
-          )} ring-white dark:bg-${cancelledCheck("700")} dark:ring-gray-900`}
+          className={cn(
+            `absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full ring-white`,
+            ord === 0 ? "bg-red-200 text-red-500" : "bg-gray-100 text-gray-700",
+          )}
         >
           <PackageX />
         </span>
