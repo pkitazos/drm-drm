@@ -9,6 +9,7 @@ import Sidebar from "~/components/sidebar";
 import Header from "~/components/header";
 import "~/styles/globals.css";
 import { TRPCReactProvider } from "~/trpc/react";
+import { CartContextProvider } from "~/lib/cart-context";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,11 +32,13 @@ export default function RootLayout({
       <body className={`font-sans ${inter.variable} w-full`}>
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <TRPCReactProvider headers={headers()}>
-          <Header />
-          <Sidebar />
-          <div className="ml-14 mt-[14dvh] w-[calc(100%-3.5rem)] p-10">
-            {children}
-          </div>
+          <CartContextProvider>
+            <Header />
+            <Sidebar />
+            <div className="ml-14 mt-[14dvh] w-[calc(100%-3.5rem)] p-10">
+              {children}
+            </div>
+          </CartContextProvider>
         </TRPCReactProvider>
         <Toaster />
       </body>
