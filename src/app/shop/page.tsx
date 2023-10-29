@@ -1,15 +1,7 @@
-import { ItemCard } from "~/components/item-card";
 import { api } from "~/trpc/server";
+import ClientSection from "./client-section";
 
 export default async function Page() {
   const products = await api.products.getAll.query({ page: 1 });
-  return (
-    <div className="flex w-full flex-col pb-20">
-      <div className="grid grid-cols-4 gap-6">
-        {products.map((product, i) => (
-          <ItemCard key={i} item={product} />
-        ))}
-      </div>
-    </div>
-  );
+  return <ClientSection products={products} />;
 }
