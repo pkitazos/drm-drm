@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { useSession } from "next-auth/react";
 import { api } from "~/trpc/react";
+import toast from "react-hot-toast";
 
 export function Checkout() {
   const { contents } = useCart();
@@ -12,6 +13,10 @@ export function Checkout() {
   const { data: loyaltyData } = api.users.getLoyalty.useQuery({
     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     id: data?.user.id!,
+  });
+
+  const products = contents.map((items) => {
+    return { SKU_ID: items.SKU_ID };
   });
 
   const loyalty = loyaltyData?.UserLinking[0]?.customer.LoyaltyLevel;
@@ -49,6 +54,26 @@ export function Checkout() {
 
   const total = subtotal - discount + shipping;
 
+  const { mutateAsync } = api.orders.create.useMutation();
+
+  const handleSubmit = async () => {
+    await toast.promise(
+      mutateAsync({
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        CustomerId: loyaltyData?.UserLinking[0]?.customer.Id!,
+        products: products,
+        OrderTotal: total,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        addressId: loyaltyData?.UserLinking[0]?.customer.addressId!,
+      }),
+      {
+        success: "Order placed!",
+        error: "plum plum",
+        loading: "Loading...",
+      },
+    );
+  };
+
   return (
     <div className="flex flex-col gap-3 rounded-md bg-accent px-5 py-3">
       <h3 className="mb-4 text-xl">Order Summary</h3>
@@ -71,7 +96,7 @@ export function Checkout() {
         <p>Order total</p>
         <p>{currencyFormatter.format(total)}</p>
       </div>
-      <Button className="mt-4 w-full" size="lg">
+      <Button className="mt-4 w-full" size="lg" onClick={handleSubmit}>
         Checkout
       </Button>
     </div>
