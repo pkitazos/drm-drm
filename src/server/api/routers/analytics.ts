@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const analyticsRouter = createTRPCRouter({
@@ -144,30 +142,30 @@ export const analyticsRouter = createTRPCRouter({
       include: {
         Customer: {
           select: {
-            LoyaltyLevel: true
-          }
+            LoyaltyLevel: true,
+          },
         },
         Products: {
           select: {
-            Category: true
-          }
+            Category: true,
+          },
         },
       },
     });
 
-  type CategoryDict = Record<string, number[]>;
+    type CategoryDict = Record<string, number[]>;
 
-  const categoriesByLoyalty: CategoryDict = {}
+    const categoriesByLoyalty: CategoryDict = {};
 
-  for (const order of orders) {
-    const loyalty = order.Customer.LoyaltyLevel
-    const category = order.Products[0]?.Category ?? "";
+    for (const order of orders) {
+      const loyalty = order.Customer.LoyaltyLevel;
+      const category = order.Products[0]?.Category ?? "";
 
-    if (!Object.keys(categoriesByLoyalty).includes(category)) {
-      categoriesByLoyalty[category] = [0, 0, 0, 0];
+      if (!Object.keys(categoriesByLoyalty).includes(category)) {
+        categoriesByLoyalty[category] = [0, 0, 0, 0];
+      }
+      categoriesByLoyalty[category]![loyalty] += order.OrderTotal;
     }
-    categoriesByLoyalty[category]![loyalty] += order.OrderTotal;
-  }
-  return categoriesByLoyalty
+    return categoriesByLoyalty;
   }),
 });
