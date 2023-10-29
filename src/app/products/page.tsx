@@ -10,7 +10,7 @@ export default async function Page() {
     <>
       <Button asChild>
         <Link href={"/products/new"}>
-          <div>
+          <div className="flex items-center justify-center">
             <Plus />
             New Product
           </div>

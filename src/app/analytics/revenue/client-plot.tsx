@@ -10,6 +10,8 @@ interface ClientPlot {
   barmode?: string;
   width: number;
   height: number;
+  xaxis: string;
+  yaxis: string;
 }
 
 const ClientPlot: FunctionComponent<ClientPlot> = ({
@@ -18,6 +20,8 @@ const ClientPlot: FunctionComponent<ClientPlot> = ({
   barmode,
   height,
   width,
+  xaxis,
+  yaxis,
 }) => {
   return (
     <Plot
@@ -29,6 +33,12 @@ const ClientPlot: FunctionComponent<ClientPlot> = ({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         barmode: barmode,
+        xaxis: {
+          title: xaxis,
+        },
+        yaxis: {
+          title: yaxis,
+        },
       }}
     />
   );
