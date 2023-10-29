@@ -23,4 +23,24 @@ export const userRouter = createTRPCRouter({
         }
       });
     }),
+    getLoyalty: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input: { id: Id } }) => {
+      return await ctx.db.user.findFirstOrThrow({
+        where: {
+          id: Id,
+        },
+        include: {
+            UserLinking: {
+                select: {
+                    customer: {
+                        select: {
+                            LoyaltyLevel: true
+                        }
+                    }
+                }
+            }
+        }
+      });
+    }),
 });
