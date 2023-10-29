@@ -28,7 +28,7 @@ export const CustomerCard = ({
         tip={<p>Customer Details</p>}
       >
         <h1 className="mt-2 text-center text-2xl font-bold">
-          {customer.first_name} {customer.last_name}
+          {customer.first_name + " " + customer.last_name}
         </h1>
       </Component>
       <Loyalty level={customer.LoyaltyLevel} />
