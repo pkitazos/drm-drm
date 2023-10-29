@@ -133,10 +133,41 @@ export const analyticsRouter = createTRPCRouter({
 
     const results = new Array<number>(16).fill(0);
 
-    for (let i=0; i< yoyArr.length-4; i++) {
-      results[i] = (yoyArr[i+4]!/yoyArr[i]!)-1
+    for (let i = 0; i < yoyArr.length - 4; i++) {
+      results[i] = yoyArr[i + 4]! / yoyArr[i]! - 1;
     }
 
     return results;
+  }),
+  getLoyaltyRevenueByCategory: publicProcedure.query(async ({ ctx }) => {
+    const orders = await ctx.db.order.findMany({
+      include: {
+        Customer: {
+          select: {
+            LoyaltyLevel: true
+          }
+        },
+        Products: {
+          select: {
+            Category: true
+          }
+        },
+      },
+    });
+
+  type CategoryDict = Record<string, number[]>;
+
+  const categoriesByLoyalty: CategoryDict = {}
+
+  for (const order of orders) {
+    const loyalty = order.Customer.LoyaltyLevel
+    const category = order.Products[0]?.Category ?? "";
+
+    if (!Object.keys(categoriesByLoyalty).includes(category)) {
+      categoriesByLoyalty[category] = [0, 0, 0, 0];
+    }
+    categoriesByLoyalty[category]![loyalty] += order.OrderTotal;
+  }
+  return categoriesByLoyalty
   }),
 });

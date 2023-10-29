@@ -50,11 +50,15 @@ const Page = async () => {
             },
           ]}
           title="Year-Over-Year Quarterly Revenue (2019-2023)"
+          width={700}
+          height={700}
         />
         <ClientPlot
           data={categoryData}
           title="Total Revenue Per Category (2019-2023)"
           barmode="stack"
+          width={700}
+          height={700}
         />
       </div>
     </div>
