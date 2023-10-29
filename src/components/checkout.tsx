@@ -1,9 +1,8 @@
 "use client";
-import { Button } from "./ui/button";
-import { currencyFormatter } from "~/lib/currency";
 import { useCart } from "~/lib/cart-context";
+import { currencyFormatter } from "~/lib/currency";
+import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
-import Link from "next/link";
 
 export function Checkout() {
   const { contents } = useCart();
@@ -15,7 +14,7 @@ export function Checkout() {
   const discount = 0.95;
   //   1 - 5% off guitar only products
   //   2 - 10% off guitar and guitar accessory products
-  //   3 - 10% off all products and early access and free delivery
+  //   3 - 10% off all products and and free delivery
 
   const shipping = subtotal ? 10 : 0;
 

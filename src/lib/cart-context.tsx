@@ -26,7 +26,7 @@ export const CartContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const remove = (idx: number) => {
-    setSelectedProducts((prev) => prev.splice(idx, 1));
+    setSelectedProducts((prev) => prev.filter((_, i) => i !== idx));
   };
 
   return (

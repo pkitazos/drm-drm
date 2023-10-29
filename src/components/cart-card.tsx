@@ -3,16 +3,10 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { type Product } from "@prisma/client";
 import { currencyFormatter } from "~/lib/currency";
+import { useCart } from "~/lib/cart-context";
 
-export function CartCard({
-  product,
-  idx,
-  remove,
-}: {
-  product: Product;
-  idx: number;
-  remove: (idx: number) => void;
-}) {
+export function CartCard({ product, idx }: { product: Product; idx: number }) {
+  const { remove } = useCart();
   return (
     <div className="flex items-center gap-5 rounded-md bg-accent px-5 py-3">
       <Image

@@ -13,6 +13,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
+import { cn } from "~/lib/utils";
 
 export default function Header() {
   return (
@@ -30,7 +31,7 @@ export default function Header() {
 }
 
 function Cart() {
-  const { remove, contents } = useCart();
+  const { contents } = useCart();
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -43,9 +44,16 @@ function Cart() {
           <SheetTitle>Your Shopping Cart</SheetTitle>
           <SheetDescription>Make changes to your cart here</SheetDescription>
         </SheetHeader>
-        {contents.map((product, i) => (
-          <CartCard key={i} product={product} remove={remove} idx={i} />
-        ))}
+        <div
+          className={cn(
+            "flex flex-col justify-start gap-3",
+            contents.length >= 3 && "overflow-y-scroll",
+          )}
+        >
+          {contents.map((product, i) => (
+            <CartCard key={i} product={product} idx={i} />
+          ))}
+        </div>
         <Checkout />
       </SheetContent>
     </Sheet>
