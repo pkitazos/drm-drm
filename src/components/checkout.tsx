@@ -1,25 +1,27 @@
 "use client";
+import toast from "react-hot-toast";
 import { useCart } from "~/lib/cart-context";
 import { currencyFormatter } from "~/lib/currency";
+import { api } from "~/trpc/react";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
-import { useSession } from "next-auth/react";
-import { api } from "~/trpc/react";
-import toast from "react-hot-toast";
 
-export function Checkout() {
-  const { contents } = useCart();
-  const { data } = useSession();
-  const { data: loyaltyData } = api.users.getLoyalty.useQuery({
-    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-    id: data?.user.id!,
-  });
+export function Checkout({
+  loyalty,
+  customerId,
+  addressId,
+}: {
+  loyalty: number;
+  customerId: number;
+  addressId: string;
+}) {
+  const { mutateAsync } = api.orders.create.useMutation();
+
+  const { contents, clearCart } = useCart();
 
   const products = contents.map((items) => {
     return { SKU_ID: items.SKU_ID };
   });
-
-  const loyalty = loyaltyData?.UserLinking[0]?.customer.LoyaltyLevel;
 
   const subtotal = contents
     .map(({ SalesPrice }) => SalesPrice)
@@ -48,23 +50,21 @@ export function Checkout() {
     }
   };
 
-  const discount = getDiscount(loyalty!);
+  const discount = getDiscount(loyalty);
 
   const shipping = subtotal ? 10 : 0;
 
   const total = subtotal - discount + shipping;
 
-  const { mutateAsync } = api.orders.create.useMutation();
-
   const handleSubmit = async () => {
     await toast.promise(
       mutateAsync({
-        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-        CustomerId: loyaltyData?.UserLinking[0]?.customer.Id!,
+        CustomerId: customerId,
         products: products,
         OrderTotal: total,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-        addressId: loyaltyData?.UserLinking[0]?.customer.addressId!,
+        addressId: addressId,
+      }).then(() => {
+        clearCart();
       }),
       {
         success: "Order placed!",
