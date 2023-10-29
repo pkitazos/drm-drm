@@ -95,7 +95,7 @@ const Page = () => {
   }
 
   return (
-    <div className="">
+    <div className="h-[75dvh]">
       <div className="flex h-full rounded">
         {isLoading ? (
           <SpinnerComponent />
