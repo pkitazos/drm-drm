@@ -36,6 +36,9 @@ export const orderRouter = createTRPCRouter({
           //where customerId = customerId
           CustomerId,
         },
+        include: {
+          Products: true,
+        },
       });
     }),
 

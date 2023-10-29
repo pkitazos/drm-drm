@@ -1,24 +1,17 @@
-"use client";
-import { Music, ShoppingCart } from "lucide-react";
-import { useCart } from "~/lib/cart-context";
+import { Music } from "lucide-react";
+import { getServerAuthSession } from "~/server/auth";
+import { api } from "~/trpc/server";
 import { Breadcrumbs } from "./breadcrumbs";
-import { CartCard } from "./cart-card";
-import { Checkout } from "./checkout";
-import { Button } from "./ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "./ui/sheet";
-import { cn } from "~/lib/utils";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { api } from "~/trpc/react";
+import { Cart } from "./cart";
+import { AuthButton } from "./signin-button";
 
-export default function Header() {
+export default async function Header() {
+  const session = await getServerAuthSession();
+
+  const userData = session
+    ? await api.users.getForId.query({ id: session.user.id })
+    : undefined;
+
   return (
     <header className="fixed left-14 top-0 z-50 flex h-[14dvh] w-[calc(100%-3.5rem)] justify-between bg-background px-7 pt-3">
       <div className="flex flex-col items-start justify-center gap-2">
@@ -28,72 +21,10 @@ export default function Header() {
           <h1 className="text-2xl font-semibold">drum-drum</h1>
         </div>
       </div>
-      <SignIn />
-    </header>
-  );
-}
-
-function SignIn() {
-  const { data: session } = useSession();
-  if (session) {
-    const userId = session?.user.id;
-    const { data } = api.users.getIcon.useQuery({ id: userId ?? "" });
-    return (
-      <div className="flex gap-2">
-        <Avatar>
-          <AvatarImage src={data?.UserLinking[0]?.customer.avatar} />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-10 w-20"
-          onClick={() => signOut()}
-        >
-          Sign Out
-        </Button>
-        <Cart />
+      <div className="flex gap-4">
+        <AuthButton />
+        {userData?.avatar && <Cart userData={userData} />}
       </div>
-    );
-  }
-  return (
-    <Button
-      variant="outline"
-      size="icon"
-      className="h-10 w-20"
-      onClick={() => signIn()}
-    >
-      Sign in
-    </Button>
-  );
-}
-
-function Cart() {
-  const { contents } = useCart();
-  return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline" size="icon">
-          <ShoppingCart className="h-4 w-4" />
-        </Button>
-      </SheetTrigger>
-      <SheetContent className="flex h-full w-[500px] flex-col justify-between">
-        <SheetHeader>
-          <SheetTitle>Your Shopping Cart</SheetTitle>
-          <SheetDescription>Make changes to your cart here</SheetDescription>
-        </SheetHeader>
-        <div
-          className={cn(
-            "flex flex-col justify-start gap-3",
-            contents.length >= 3 && "overflow-y-scroll",
-          )}
-        >
-          {contents.map((product, i) => (
-            <CartCard key={i} product={product} idx={i} />
-          ))}
-        </div>
-        <Checkout />
-      </SheetContent>
-    </Sheet>
+    </header>
   );
 }
