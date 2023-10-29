@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { type OrderPayload } from "~/app/my-account/page";
+import { type OrderPayload } from "~/app/(customer)/my-account/page";
 import { currencyFormatter } from "~/lib/currency";
 import { Button } from "./ui/button";
 import Link from "next/link";
