@@ -23,13 +23,17 @@ export default async function Page({
     <main className="flex flex-col">
       {/* <OrderStatusDisplay/> */}
       <section className="flex flex-row justify-around">
-        <div>
-          <h1>
-            <span>Order Placed On</span> {format(order.DateCreated, "PPP")}
-          </h1>
-          <h2>
-            <span>Total</span> {currencyFormatter.format(order.OrderTotal)}
-          </h2>
+        <div className="flex flex-col gap-8">
+          <div className="rounded-md bg-accent p-5 shadow-md">
+            <h1>
+              <span className="font-semibold">Order Placed On:</span>{" "}
+              {format(order.DateCreated, "PPP")}
+            </h1>
+            <h2>
+              <span className="font-semibold">Total:</span>{" "}
+              {currencyFormatter.format(order.OrderTotal)}
+            </h2>
+          </div>
           <AddressCard address={address} />
         </div>
         <CustomerCard customer={customer} withLink />
