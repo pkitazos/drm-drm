@@ -55,106 +55,114 @@ export default function ClientSection({ products }: { products: Product[] }) {
   );
 
   return (
-    <div className="flex w-full flex-col pb-20">
-      <Form {...form}>
-        <Button onClick={() => form.reset()}>clear Form</Button>
-        <FormField
-          control={form.control}
-          name="minPrice"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Min Price</FormLabel>
-              <FormControl>
-                <Input placeholder="..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="maxPrice"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Max Price</FormLabel>
-              <FormControl>
-                <Input placeholder="..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="Online"
-          render={({ field }) => (
-            <FormItem className="flex w-full items-center gap-3 pl-3">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <div>
-                <FormLabel>Online</FormLabel>
-                <FormDescription>Can it be bought online</FormDescription>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="flex w-full flex-col items-start gap-6">
-          <h2 className="mb-4 text-xl font-semibold">Variants</h2>
-          <FormField
-            control={form.control}
-            name="Colour"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col">
-                <FormLabel>Colour</FormLabel>
-                <FormCombobox
-                  field={field}
-                  form={form}
-                  options={colours.map((e) => ({ label: e, value: e }))}
-                />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="Pickup"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col">
-                <FormLabel>Pickup</FormLabel>
-                <FormCombobox
-                  field={field}
-                  form={form}
-                  options={pickups.map((e) => ({ label: e, value: e }))}
-                />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="BodyShape"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col">
-                <FormLabel>Shape</FormLabel>
-                <FormCombobox
-                  field={field}
-                  form={form}
-                  options={shapes.map((e) => ({ label: e, value: e }))}
-                />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-      </Form>
+    <div className="flex w-full flex-col items-center justify-center pb-20">
+      <div className="flex w-1/2 flex-col items-center pb-6">
+        <h2 className="mb-4 text-xl font-semibold">Filters</h2>
+        <Form {...form}>
+          <div className="flex w-full gap-6 py-3">
+            <div className="flex w-1/2 flex-col gap-4">
+              <FormField
+                control={form.control}
+                name="minPrice"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Min Price</FormLabel>
+                    <FormControl>
+                      <Input placeholder="..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="maxPrice"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Max Price</FormLabel>
+                    <FormControl>
+                      <Input placeholder="..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="Online"
+                render={({ field }) => (
+                  <FormItem className="flex w-full items-center gap-3 pl-3">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div>
+                      <FormLabel>Online</FormLabel>
+                      <FormDescription>Can it be bought online</FormDescription>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="flex w-1/2  flex-col items-start gap-6">
+              <FormField
+                control={form.control}
+                name="Colour"
+                render={({ field }) => (
+                  <FormItem className="flex w-full flex-col">
+                    <FormLabel>Colour</FormLabel>
+                    <FormCombobox
+                      field={field}
+                      form={form}
+                      options={colours.map((e) => ({ label: e, value: e }))}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="Pickup"
+                render={({ field }) => (
+                  <FormItem className="flex w-full flex-col">
+                    <FormLabel>Pickup</FormLabel>
+                    <FormCombobox
+                      field={field}
+                      form={form}
+                      options={pickups.map((e) => ({ label: e, value: e }))}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="BodyShape"
+                render={({ field }) => (
+                  <FormItem className="flex w-full flex-col">
+                    <FormLabel>Shape</FormLabel>
+                    <FormCombobox
+                      field={field}
+                      form={form}
+                      options={shapes.map((e) => ({ label: e, value: e }))}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+          <Button onClick={() => form.reset()}>clear Form</Button>
+        </Form>
+      </div>
+
       <div className="grid grid-cols-4 gap-6">
         {products.filter(filterFn).map((product, i) => (
-          <ItemCard key={i} item={product} />
+          <ItemCard key={i} item={product} route="shop" />
         ))}
       </div>
     </div>
