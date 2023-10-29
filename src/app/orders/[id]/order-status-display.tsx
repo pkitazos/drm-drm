@@ -22,11 +22,11 @@ export const OrderStatusDisplay = ({ status }: { status: OrderStatus }) => {
   const ord = dict[status]!;
 
   return (
-    <ol className="relative flex gap-12 border-t border-gray-200 text-gray-500 dark:border-gray-700 dark:text-gray-400">
-      <li>
+    <ol className="relative flex gap-12 border-t pt-8 text-gray-500 dark:border-gray-700 dark:text-gray-400">
+      <li className="grid place-items-center">
         <span
           className={cn(
-            `absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full ring-white`,
+            `absolute -top-10 flex h-8 w-8 translate-y-6 items-center justify-center rounded-full ring-white`,
             ord > 0
               ? "bg-green-200 text-green-500"
               : "bg-gray-100 text-gray-700",
@@ -36,10 +36,10 @@ export const OrderStatusDisplay = ({ status }: { status: OrderStatus }) => {
         </span>
         <h3 className="font-medium leading-tight">Placed</h3>
       </li>
-      <li>
+      <li className="grid place-items-center">
         <span
           className={cn(
-            `absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full ring-white`,
+            `absolute -top-10 flex h-8 w-8 translate-y-6 items-center justify-center rounded-full ring-white`,
             ord > 1
               ? "bg-green-200 text-green-500"
               : "bg-gray-100 text-gray-700",
@@ -49,10 +49,10 @@ export const OrderStatusDisplay = ({ status }: { status: OrderStatus }) => {
         </span>
         <h3 className="font-medium leading-tight">Dispatched</h3>
       </li>
-      <li>
+      <li className="grid place-items-center">
         <span
           className={cn(
-            `absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full ring-white`,
+            `absolute -top-10 flex h-8 w-8 translate-y-6 items-center justify-center rounded-full ring-white`,
             ord > 2
               ? "bg-green-200 text-green-500"
               : "bg-gray-100 text-gray-700",
@@ -62,10 +62,10 @@ export const OrderStatusDisplay = ({ status }: { status: OrderStatus }) => {
         </span>
         <h3 className="font-medium leading-tight">Delivering</h3>
       </li>
-      <li>
+      <li className="grid place-items-center">
         <span
           className={cn(
-            `absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full ring-white`,
+            `absolute -top-10 flex h-8 w-8 translate-y-6 items-center justify-center rounded-full ring-white`,
             ord > 3
               ? "bg-green-200 text-green-500"
               : "bg-gray-100 text-gray-700",
@@ -75,10 +75,10 @@ export const OrderStatusDisplay = ({ status }: { status: OrderStatus }) => {
         </span>
         <h3 className="font-medium leading-tight">Delivered</h3>
       </li>
-      <li>
+      <li className="grid place-items-center">
         <span
           className={cn(
-            `absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full ring-white`,
+            `absolute -top-10 flex h-8 w-8 translate-y-6 items-center justify-center rounded-full ring-white`,
             ord > 4
               ? "bg-green-200 text-green-500"
               : "bg-gray-100 text-gray-700",
@@ -88,10 +88,10 @@ export const OrderStatusDisplay = ({ status }: { status: OrderStatus }) => {
         </span>
         <h3 className="font-medium leading-tight">Completed</h3>
       </li>
-      <li>
+      <li className="grid place-items-center">
         <span
           className={cn(
-            `absolute -top-10 flex h-8 w-8 items-center justify-center rounded-full ring-white`,
+            `absolute -top-10 flex h-8 w-8 translate-y-6 items-center justify-center rounded-full ring-white`,
             ord === 0 ? "bg-red-200 text-red-500" : "bg-gray-100 text-gray-700",
           )}
         >
