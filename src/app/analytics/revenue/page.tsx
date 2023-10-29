@@ -37,7 +37,7 @@ const Page = async () => {
   ];
 
   return (
-    <div className="h-[88dvh] ">
+    <div className="h-[70dvh] ">
       <div className="flex h-full justify-center">
         <ClientPlot
           data={[
@@ -50,15 +50,19 @@ const Page = async () => {
             },
           ]}
           title="Year-Over-Year Quarterly Revenue (2019-2023)"
-          width={700}
-          height={700}
+          width={680}
+          height={680}
+          xaxis="Time (Quarters)"
+          yaxis="Year-Over-Year"
         />
         <ClientPlot
           data={categoryData}
           title="Total Revenue Per Category (2019-2023)"
           barmode="stack"
-          width={700}
-          height={700}
+          width={680}
+          height={680}
+          xaxis="Time (Years)"
+          yaxis="Revenue (£)"
         />
       </div>
     </div>
