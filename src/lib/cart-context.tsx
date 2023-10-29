@@ -6,6 +6,7 @@ interface cardContextType {
   contents: Product[];
   add: (product: Product) => void;
   remove: (idx: number) => void;
+  clearCart: () => void;
 }
 
 const cartContext = createContext<cardContextType>({
@@ -14,6 +15,9 @@ const cartContext = createContext<cardContextType>({
     return;
   },
   remove: () => {
+    return;
+  },
+  clearCart: () => {
     return;
   },
 });
@@ -29,8 +33,12 @@ export const CartContextProvider = ({ children }: { children: ReactNode }) => {
     setSelectedProducts((prev) => prev.filter((_, i) => i !== idx));
   };
 
+  const clearCart = () => setSelectedProducts([]);
+
   return (
-    <cartContext.Provider value={{ add, remove, contents: selectedProducts }}>
+    <cartContext.Provider
+      value={{ add, remove, clearCart, contents: selectedProducts }}
+    >
       {children}
     </cartContext.Provider>
   );

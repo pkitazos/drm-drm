@@ -3,9 +3,13 @@ import { useCart } from "~/lib/cart-context";
 import { currencyFormatter } from "~/lib/currency";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
+import { api } from "~/trpc/react";
+import toast from "react-hot-toast";
 
 export function Checkout() {
-  const { contents } = useCart();
+  const { mutateAsync } = api.orders.create.useMutation();
+
+  const { contents, clearCart } = useCart();
 
   const subtotal = contents
     .map(({ SalesPrice }) => SalesPrice)
@@ -42,7 +46,25 @@ export function Checkout() {
         <p>Order total</p>
         <p>{currencyFormatter.format(total)}</p>
       </div>
-      <Button className="mt-4 w-full" size="lg">
+      <Button
+        className="mt-4 w-full"
+        size="lg"
+        onClick={() => {
+          void toast.promise(
+            mutateAsync({
+              OrderTotal: total,
+              addressId: "yes", //TODO these need real values
+              CustomerId: 12, //TODO these need real values
+              products: contents,
+            }).then(() => clearCart()),
+            {
+              error: "something went wrong",
+              loading: "processing",
+              success: "checkout complete!",
+            },
+          );
+        }}
+      >
         Checkout
       </Button>
     </div>
