@@ -6,12 +6,17 @@ import {
   ScanBarcode,
   LineChart,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "~/lib/utils";
+import { api } from "~/trpc/react";
 
 const Sidebar = () => {
   const path = usePathname();
+  const session = useSession();
+  const userId = session.data?.user.id;
+  const { data } = api.users.getRole.useQuery({ id: userId });
 
   return (
     <ol className="items-centre fixed top-0 flex h-[100dvh] w-14 flex-col gap-10 bg-gray-100 p-5 pt-6">

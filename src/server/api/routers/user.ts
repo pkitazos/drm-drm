@@ -43,4 +43,16 @@ export const userRouter = createTRPCRouter({
         }
       });
     }),
+    getRole: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input: { id: Id } }) => {
+      return await ctx.db.user.findFirstOrThrow({
+        where: {
+          id: Id,
+        },
+        select: {
+          role: true
+        }
+      });
+    }),
 });
