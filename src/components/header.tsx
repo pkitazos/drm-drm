@@ -14,11 +14,12 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { cn } from "~/lib/utils";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { api } from "~/trpc/react";
+import { AuthButton } from "./signin-button";
+import { useSession } from "next-auth/react";
+
 
 export default function Header() {
+  const session = useSession();
   return (
     <header className="fixed left-14 top-0 z-50 flex h-[14dvh] w-[calc(100%-3.5rem)] justify-between bg-background px-7 pt-3">
       <div className="flex flex-col items-start justify-center gap-2">
@@ -28,43 +29,11 @@ export default function Header() {
           <h1 className="text-2xl font-semibold">drum-drum</h1>
         </div>
       </div>
-      <SignIn />
-    </header>
-  );
-}
-
-function SignIn() {
-  const { data: session } = useSession();
-  if (session) {
-    const userId = session?.user.id;
-    const { data } = api.users.getIcon.useQuery({ id: userId ?? "" });
-    return (
-      <div className="flex gap-2">
-        <Avatar>
-          <AvatarImage src={data?.UserLinking[0]?.customer.avatar} />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-10 w-20"
-          onClick={() => signOut()}
-        >
-          Sign Out
-        </Button>
-        <Cart />
+      <div className="flex gap-4">
+        <AuthButton />
+        {session.data?.user && <Cart />}
       </div>
-    );
-  }
-  return (
-    <Button
-      variant="outline"
-      size="icon"
-      className="h-10 w-20"
-      onClick={() => signIn()}
-    >
-      Sign in
-    </Button>
+    </header>
   );
 }
 

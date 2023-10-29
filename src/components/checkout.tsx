@@ -3,6 +3,7 @@ import { useCart } from "~/lib/cart-context";
 import { currencyFormatter } from "~/lib/currency";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
+import { useSession } from "next-auth/react";
 import { api } from "~/trpc/react";
 import toast from "react-hot-toast";
 
@@ -10,19 +11,70 @@ export function Checkout() {
   const { mutateAsync } = api.orders.create.useMutation();
 
   const { contents, clearCart } = useCart();
+  const { data } = useSession();
+  const { data: loyaltyData } = api.users.getLoyalty.useQuery({
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    id: data?.user.id!,
+  });
+
+  const products = contents.map((items) => {
+    return { SKU_ID: items.SKU_ID };
+  });
+
+  const loyalty = loyaltyData?.UserLinking[0]?.customer.LoyaltyLevel;
 
   const subtotal = contents
     .map(({ SalesPrice }) => SalesPrice)
     .reduce((acc, val) => acc + val, 0);
 
-  const discount = 0.95;
-  //   1 - 5% off guitar only products
-  //   2 - 10% off guitar and guitar accessory products
-  //   3 - 10% off all products and and free delivery
+  const getDiscount = (loyalty: number) => {
+    if (loyalty == 0) {
+      return 0;
+    } else if (loyalty == 1) {
+      return contents
+        .filter((item) => item.Category.startsWith("GU"))
+        .map(({ SalesPrice }) => SalesPrice * 0.05)
+        .reduce((acc, val) => acc + val, 0);
+    } else if (loyalty == 2) {
+      return contents
+        .filter(
+          (item) =>
+            item.Category.startsWith("GU") || item.Category.startsWith("AC"),
+        )
+        .map(({ SalesPrice }) => SalesPrice * 0.1)
+        .reduce((acc, val) => acc + val, 0);
+    } else {
+      return contents
+        .map(({ SalesPrice }) => SalesPrice * 0.1)
+        .reduce((acc, val) => acc + val, 0);
+    }
+  };
+
+  const discount = getDiscount(loyalty!);
 
   const shipping = subtotal ? 10 : 0;
 
-  const total = subtotal ? subtotal * discount + shipping : 0;
+  const total = subtotal - discount + shipping;
+
+  const handleSubmit = async () => {
+    await toast.promise(
+      mutateAsync({
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        CustomerId: loyaltyData?.UserLinking[0]?.customer.Id!,
+        products: products,
+        OrderTotal: total,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        addressId: loyaltyData?.UserLinking[0]?.customer.addressId!,
+      }).then(() => {
+        clearCart();
+      }),
+      {
+        success: "Order placed!",
+        error: "plum plum",
+        loading: "Loading...",
+      },
+    );
+  };
 
   return (
     <div className="flex flex-col gap-3 rounded-md bg-accent px-5 py-3">
@@ -46,25 +98,7 @@ export function Checkout() {
         <p>Order total</p>
         <p>{currencyFormatter.format(total)}</p>
       </div>
-      <Button
-        className="mt-4 w-full"
-        size="lg"
-        onClick={() => {
-          void toast.promise(
-            mutateAsync({
-              OrderTotal: total,
-              addressId: "yes", //TODO these need real values
-              CustomerId: 12, //TODO these need real values
-              products: contents,
-            }).then(() => clearCart()),
-            {
-              error: "something went wrong",
-              loading: "processing",
-              success: "checkout complete!",
-            },
-          );
-        }}
-      >
+      <Button className="mt-4 w-full" size="lg" onClick={handleSubmit}>
         Checkout
       </Button>
     </div>

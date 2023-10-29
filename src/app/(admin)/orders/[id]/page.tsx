@@ -43,7 +43,7 @@ export default async function Page({
       <Separator className="my-5" />
       <ul>
         {order.Products.map((product, i) => (
-          <ItemCard item={product} key={i} />
+          <ItemCard route="products" item={product} key={i} />
         ))}
       </ul>
     </main>
