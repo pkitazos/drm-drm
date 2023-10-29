@@ -10,7 +10,7 @@ const Page = async () => {
     return {
       x: loyalties,
       y: categoriesByLoyalty[category],
-      name: `${category}`,
+      name: category,
       type: "bar",
     };
   });
