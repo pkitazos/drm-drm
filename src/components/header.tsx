@@ -14,6 +14,9 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { cn } from "~/lib/utils";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { api } from "~/trpc/react";
 
 export default function Header() {
   return (
@@ -25,8 +28,43 @@ export default function Header() {
           <h1 className="text-2xl font-semibold">drum-drum</h1>
         </div>
       </div>
-      <Cart />
+      <SignIn />
     </header>
+  );
+}
+
+function SignIn() {
+  const { data: session } = useSession();
+  if (session) {
+    const userId = session?.user.id;
+    const { data } = api.users.getIcon.useQuery({ id: userId ?? "" });
+    return (
+      <div className="flex gap-2">
+        <Avatar>
+          <AvatarImage src={data?.UserLinking[0]?.customer.avatar} />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-10 w-20"
+          onClick={() => signOut()}
+        >
+          Sign Out
+        </Button>
+        <Cart />
+      </div>
+    );
+  }
+  return (
+    <Button
+      variant="outline"
+      size="icon"
+      className="h-10 w-20"
+      onClick={() => signIn()}
+    >
+      Sign in
+    </Button>
   );
 }
 
