@@ -3,10 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type Product } from "@prisma/client";
 import { ProductModel } from "@prisma/schemas";
-import { z } from "Zod";
 import { colours, pickups, shapes } from "prisma/helpers";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { ItemCard } from "~/components/item-card";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
