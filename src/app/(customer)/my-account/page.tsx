@@ -2,6 +2,7 @@ import { type Order, type Product } from "@prisma/client";
 import { AddressCard } from "~/components/address-card";
 import { CustomerCard } from "~/components/customer-card";
 import { OrderCard } from "~/components/order-card";
+import { Unauthorised } from "~/components/unauthorised";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 
@@ -9,14 +10,17 @@ export type OrderPayload = Order & { Products: Product[] };
 
 export default async function Page() {
   const session = await getServerAuthSession();
-  const userId = session?.user.id;
 
-  const { UserLinking } = await api.users.getLoyalty.query({ id: userId! });
+  if (!session) return <Unauthorised message="you need to sign in" />;
 
-  const customer = await api.customers.getById.query({
-    id: UserLinking[0]!.customer.Id,
-  });
+  const userId = session.user.id;
 
+  const userData = await api.users.getForId.query({ id: userId });
+
+  if (!userData.avatar)
+    return <Unauthorised message="your account is not properly linked" />;
+
+  const customer = await api.customers.getById.query({ id: userData.Id });
   const orders = await api.orders.getByUserId.query({
     CustomerId: customer.Id,
   });

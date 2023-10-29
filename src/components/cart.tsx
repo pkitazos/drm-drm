@@ -42,10 +42,7 @@ export function Cart({
           <SheetDescription>Make changes to your cart here</SheetDescription>
         </SheetHeader>
         <div
-          className={cn(
-            "flex flex-col justify-start gap-3",
-            contents.length >= 3 && "overflow-y-scroll",
-          )}
+          className={cn("flex flex-col justify-start gap-3 overflow-y-scroll")}
         >
           {contents.map((product, i) => (
             <CartCard key={i} product={product} idx={i} />
