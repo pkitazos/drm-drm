@@ -29,11 +29,13 @@ export default async function Page({ params }: { params: { item: string } }) {
             <p className="text-2xl">
               {currencyFormatter.format(product.SalesPrice)}
             </p>
-            {product.ProductDetail && (
+            {product.ProductDetail ? (
               <p
                 className="text-slate-500"
                 dangerouslySetInnerHTML={{ __html: product.ProductDetail }}
               />
+            ) : (
+              <p className="text-slate-500">No Product details available</p>
             )}
           </div>
           <AddToCart product={product} disabled={!session} />

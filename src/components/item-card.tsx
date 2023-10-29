@@ -3,9 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { currencyFormatter } from "~/lib/currency";
 
-export const ItemCard = ({ item }: { item: Product }) => {
+export const ItemCard = ({ route, item }: { route: string; item: Product }) => {
   return (
-    <Link href={`/products/${item.SKU_ID}`}>
+    <Link href={`/${route}/${item.SKU_ID}`}>
       <div className="flex h-[30rem] w-60 flex-col items-center justify-between overflow-hidden rounded-md py-6 outline outline-slate-200 transition-transform hover:scale-[1.03] ">
         <Image
           src={item.PictureMain}
