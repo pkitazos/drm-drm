@@ -2,15 +2,24 @@ import { type Order, type Product } from "@prisma/client";
 import { AddressCard } from "~/components/address-card";
 import { CustomerCard } from "~/components/customer-card";
 import { OrderCard } from "~/components/order-card";
+import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 
 export type OrderPayload = Order & { Products: Product[] };
 
 export default async function Page() {
-  const userId = 61;
+  const session = await getServerAuthSession();
+  const userId = session?.user.id;
 
-  const customer = await api.customers.getById.query({ id: userId });
-  const orders = await api.orders.getByUserId.query({ CustomerId: userId });
+  const { UserLinking } = await api.users.getLoyalty.query({ id: userId! });
+
+  const customer = await api.customers.getById.query({
+    id: UserLinking[0]!.customer.Id,
+  });
+
+  const orders = await api.orders.getByUserId.query({
+    CustomerId: customer.Id,
+  });
   const address = await api.addresses.getById.query({ id: customer.addressId });
 
   return (

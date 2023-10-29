@@ -11,6 +11,8 @@ import "~/styles/globals.css";
 import { TRPCReactProvider } from "~/trpc/react";
 import { CartContextProvider } from "~/lib/cart-context";
 import { SessionProvider } from "~/lib/auth-context";
+import { getServerAuthSession } from "~/server/auth";
+import { api } from "~/trpc/server";
 
 const inter = Inter({
   subsets: ["latin"],
