@@ -35,7 +35,9 @@ export const userRouter = createTRPCRouter({
                 select: {
                     customer: {
                         select: {
-                            LoyaltyLevel: true
+                            LoyaltyLevel: true,
+                            Id: true,
+                            addressId: true
                         }
                     }
                 }
