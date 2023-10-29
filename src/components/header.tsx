@@ -14,8 +14,11 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { cn } from "~/lib/utils";
+import { AuthButton } from "./signin-button";
+import { useSession } from "next-auth/react";
 
 export default function Header() {
+  const session = useSession();
   return (
     <header className="fixed left-14 top-0 z-50 flex h-[14dvh] w-[calc(100%-3.5rem)] justify-between bg-background px-7 pt-3">
       <div className="flex flex-col items-start justify-center gap-2">
@@ -25,7 +28,10 @@ export default function Header() {
           <h1 className="text-2xl font-semibold">drum-drum</h1>
         </div>
       </div>
-      <Cart />
+      <div className="flex gap-4">
+        <AuthButton />
+        {session.data?.user && <Cart />}
+      </div>
     </header>
   );
 }
