@@ -1,7 +1,9 @@
 const page = () => {
   return (
-    <div>page</div>
-  )
-}
+    <div className="flex">
+      <div></div>
+    </div>
+  );
+};
 
-export default page
+export default page;
