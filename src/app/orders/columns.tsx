@@ -2,18 +2,13 @@ import { type Order } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import Link from "next/link";
+import { TipLink } from "~/components/tip-link";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
 import { currencyFormatter } from "~/lib/currency";
 import { cn } from "~/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "~/components/ui/tooltip";
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -89,24 +84,12 @@ export const columns: ColumnDef<Order>[] = [
       <DataTableColumnHeader column={column} title="Customer ID" canFilter />
     ),
     cell: ({ row }) => (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>
-            <Button
-              asChild
-              variant="ghost"
-              className="underline decoration-dotted"
-            >
-              <Link href={`/customers/${row.original.CustomerId}`}>
-                {row.original.CustomerId}
-              </Link>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>See Customer Details</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <TipLink
+        href={`/customers/${row.original.CustomerId}`}
+        tip={<p>See Customer Details</p>}
+      >
+        {row.original.CustomerId}
+      </TipLink>
     ),
   },
   {

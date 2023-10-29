@@ -1,19 +1,12 @@
+import { type Product } from "@prisma/client";
+import { type ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import { Check, X } from "lucide-react";
+import { TipLink } from "~/components/tip-link";
 import { Badge } from "~/components/ui/badge";
 import { Checkbox } from "~/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
-import { type ColumnDef } from "@tanstack/react-table";
-import { Check, X } from "lucide-react";
-import Link from "next/link";
-import { type Product } from "@prisma/client";
-import { format } from "date-fns";
 import { currencyFormatter } from "~/lib/currency";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "~/components/ui/tooltip";
-import { Button } from "~/components/ui/button";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -42,24 +35,12 @@ export const columns: ColumnDef<Product>[] = [
       <DataTableColumnHeader column={column} title="Name" canFilter />
     ),
     cell: ({ row }) => (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>
-            <Button
-              asChild
-              variant="ghost"
-              className="underline decoration-dotted"
-            >
-              <Link href={`/products/${row.original.SKU_ID}`}>
-                {row.original.ItemName}
-              </Link>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>See Item Details</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <TipLink
+        href={`/products/${row.original.SKU_ID}`}
+        tip={<p>See Item Details</p>}
+      >
+        {row.original.ItemName}
+      </TipLink>
     ),
   },
   {
