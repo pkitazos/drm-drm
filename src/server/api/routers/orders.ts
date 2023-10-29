@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { OrderModel } from "@prisma/schemas";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
@@ -41,10 +40,35 @@ export const orderRouter = createTRPCRouter({
     }),
 
   create: publicProcedure
-    .input(z.object({ data: OrderModel }))
-    .mutation(async ({ ctx, input: { data } }) => {
-      return await ctx.db.order.create({
-        data,
-      });
-    }),
+    .input(
+      z.object({
+        CustomerId: z.number(),
+        addressId: z.string(),
+        OrderTotal: z.number(),
+        products: z.array(z.object({ SKU_ID: z.string() })),
+      }),
+    )
+    .mutation(
+      async ({
+        ctx,
+        input: { CustomerId, addressId, products, OrderTotal },
+      }) => {
+        const max =
+          (await ctx.db.order.aggregate({ _max: { Id: true } }))._max.Id ?? 1;
+
+        return await ctx.db.order.create({
+          data: {
+            Id: max + 1,
+            DateCreated: new Date(),
+            OrderStatus: "Placed",
+            CustomerId,
+            addressId,
+            OrderTotal,
+            Products: {
+              connect: products,
+            },
+          },
+        });
+      },
+    ),
 });
