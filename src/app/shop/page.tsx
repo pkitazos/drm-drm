@@ -7,7 +7,7 @@ export default async function Page() {
     <div className="flex w-full flex-col pb-20">
       <div className="grid grid-cols-4 gap-6">
         {products.map((product, i) => (
-          <ItemCard key={i} item={product} />
+          <ItemCard key={i} route="shop" item={product} />
         ))}
       </div>
     </div>
