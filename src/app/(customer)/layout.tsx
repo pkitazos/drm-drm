@@ -10,8 +10,8 @@ export default async function Layout({ children }: { children: ReactNode }) {
     return <Unauthorised message="You need to sign in to access this page" />;
   }
 
-  const user = session.user;
-  const { role } = await api.users.getRole.query({ id: user.id });
+  const { id } = session.user;
+  const { role } = await api.users.getRole.query({ id });
 
   if (role !== "Customer") {
     return (

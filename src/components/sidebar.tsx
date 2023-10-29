@@ -1,5 +1,5 @@
 "use client";
-import { Role } from "@prisma/client";
+import { type Role } from "@prisma/client";
 import {
   HomeIcon,
   Package,
@@ -16,7 +16,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
-const Sidebar = () => {
+const Sidebar = ({ role }: { role: Role }) => {
   const path = usePathname();
 
   const session = useSession();
@@ -24,6 +24,7 @@ const Sidebar = () => {
   const user = session.data?.user;
 
   const canAccess = (roleCheck: Role) => {
+    // This one isnt gonna work chief
     const userId = user ? user.id : "";
     const { data } = api.users.getRole.useQuery({ id: userId });
     if (!data) return false;
@@ -59,7 +60,7 @@ const Sidebar = () => {
           />
         </Link>
       </li>
-      {canAccess("Admin") && (
+      {role === "Admin" && (
         <>
           <li
             title="Orders"
@@ -119,7 +120,7 @@ const Sidebar = () => {
           </li>
         </>
       )}
-      {canAccess("Customer") && (
+      {role === "Customer" && (
         <li
           title="My Account"
           className="flex items-center text-sm text-gray-600 dark:text-gray-400"
