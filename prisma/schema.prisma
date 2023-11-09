@@ -177,6 +177,7 @@ model Session {
 }
 
 enum Role {
+    Unregistered
     Admin
     Customer
 }
@@ -196,7 +197,7 @@ model User {
     email         String?       @unique
     emailVerified DateTime?
     image         String?
-    role          Role          @default(Customer)
+    role          Role          @default(Unregistered)
     accounts      Account[]
     sessions      Session[]
     UserLinking   UserLinking[]

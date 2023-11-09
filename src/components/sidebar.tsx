@@ -1,35 +1,22 @@
 "use client";
 import { type Role } from "@prisma/client";
 import {
-  HomeIcon,
-  Package,
   Contact2,
-  ScanBarcode,
+  HomeIcon,
   LineChart,
-  User,
+  Package,
+  ScanBarcode,
   ShoppingBasket,
+  User,
 } from "lucide-react";
-import { useSession } from "next-auth/react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "~/lib/utils";
-import { api } from "~/trpc/react";
 
 const Sidebar = ({ role }: { role: Role }) => {
   const path = usePathname();
 
-  const session = useSession();
-
-  const user = session.data?.user;
-
-  const canAccess = (roleCheck: Role) => {
-    // This one isnt gonna work chief
-    const userId = user ? user.id : "";
-    const { data } = api.users.getRole.useQuery({ id: userId });
-    if (!data) return false;
-    return roleCheck === data.role;
-  };
   return (
     <ol className="items-centre fixed top-0 flex h-[100dvh] w-14 flex-col gap-10 bg-gray-100 p-5 pt-6">
       <li

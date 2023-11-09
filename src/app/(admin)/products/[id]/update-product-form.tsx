@@ -5,6 +5,7 @@ import { type Product } from "@prisma/client";
 import { ProductModel } from "@prisma/schemas";
 import { colours, pickups, shapes } from "prisma/helpers";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { type z } from "zod";
 
 import { Button } from "~/components/ui/button";
@@ -37,7 +38,11 @@ export default function UpdateProductForm({
   const { mutateAsync } = api.products.update.useMutation();
 
   const onSubmit = form.handleSubmit((productData) => {
-    void mutateAsync({ data: productData });
+    void toast.promise(mutateAsync({ data: productData }), {
+      loading: "Loading...",
+      success: "Seccessfully edited item",
+      error: "Something went wrong",
+    });
   });
 
   return (
