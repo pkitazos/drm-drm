@@ -2,8 +2,10 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductModel } from "@prisma/schemas";
+import { useRouter } from "next/navigation";
 import { colours, pickups, shapes } from "prisma/helpers";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { type z } from "zod";
 
 import { Button } from "~/components/ui/button";
@@ -24,6 +26,7 @@ import { Separator } from "~/components/ui/separator";
 import { api } from "~/trpc/react";
 
 export default function CreateProductForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof ProductModel>>({
     resolver: zodResolver(ProductModel),
   });
@@ -31,7 +34,13 @@ export default function CreateProductForm() {
   const { mutateAsync } = api.products.create.useMutation();
 
   const onSubmit = form.handleSubmit((productData) => {
-    void mutateAsync({ data: productData });
+    void toast
+      .promise(mutateAsync({ data: productData }), {
+        loading: "Loading...",
+        success: "Seccessfully created item",
+        error: "Something went wrong",
+      })
+      .then(({ SKU_ID }) => router.push(`/products/${SKU_ID}`));
   });
 
   return (
